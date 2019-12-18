@@ -25,6 +25,9 @@ spotless :
 ci :
 	${GIT} ${MESS}
 
+test: ${EXEC}
+	./${EXEC}
+
 deps : ${OBJ}
 
 install : ${EXDEPS}
