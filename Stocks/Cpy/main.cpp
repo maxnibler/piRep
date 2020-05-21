@@ -8,10 +8,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
+#include "python.h"
 
 using namespace std;
 
 int main (/*int argc, char* argv[]*/){
-  system("python test.py");
+  string args[] = {""};
+  pycall("test.py", args);
+  system("cat out.txt");
   return 0;
 }
