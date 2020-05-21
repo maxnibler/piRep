@@ -1,0 +1,35 @@
+EXDEPS  = ${OBJ}
+GENDEPS = 
+CPP     = ${GENDEPS:=.cpp} main.cpp
+OBJ     = ${GENDEPS:=.o} main.o
+HEAD    = ${GENDEPS:=.h}
+GPP     = g++
+FLAG    = -Wall -Wextra -Werror -Wpedantic -Wold-style-cast
+#PYFLAG  = pkg-config --cflags --libs python3
+EXEC    = cppy
+MESS    = "generic commit"
+GIT     = git commit -am
+BIN     = ~/.Scripts/
+
+all : ${EXDEPS}
+	${GPP} ${FLAG} -o ${EXEC} ${OBJ}
+
+%.o : %.cpp
+	${GPP} ${FLAG} -o $@ -c $<
+
+test : ${EXEC}
+	./${EXEC}
+
+clean :
+	rm ${EXEC}
+
+spotless :
+	rm ${OBJ} ${EXEC}
+
+ci :
+	${GIT} ${MESS}
+
+deps : ${OBJ}
+
+install : ${EXDEPS}
+	${GPP} ${FLAG} -o ${BIN}${EXEC} ${OBJ}
