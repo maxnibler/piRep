@@ -1,5 +1,5 @@
 EXDEPS  = ${OBJ}
-GENDEPS = python
+GENDEPS = python analysis
 CPP     = ${GENDEPS:=.cpp} main.cpp
 OBJ     = ${GENDEPS:=.o} main.o
 HEAD    = ${GENDEPS:=.h}
