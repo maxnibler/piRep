@@ -1,8 +1,19 @@
+#Maximillian H Nibler
+#max.nibler@gmail.com
+#https://github.com/maxnibler/
+
 import sys
+import requests as req
+import yfinance as yf
 
-for i, arg in enumerate(sys.argv):
-    print(arg)
+msft = yf.Ticker("MSFT")
 
-f = open('out.txt', 'w')
-f.write("Hello World\n")
-f.close()
+msftHist = msft.history(period="1d", interval="5m")
+
+#print(msftHist.to_string())
+
+msftout = open('out.txt','a')
+
+msftout.write(msftHist.to_string())
+
+msftout.close()
