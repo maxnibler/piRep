@@ -13,8 +13,7 @@
 using namespace std;
 
 int main (/*int argc, char* argv[]*/){
-  string args[] = {""};
-  pycall("test.py", args);
-  system("cat out.txt");
+  getHistory("MSFT","1d","1h");
+  system("cat Database/MSFT_history.txt");
   return 0;
 }

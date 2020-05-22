@@ -4,4 +4,6 @@
 
 #include <string>
 
-int pycall(std::string fileName, std::string args[]);
+int getHistory(
+      std::string name, std::string period, std::string interval
+    );
