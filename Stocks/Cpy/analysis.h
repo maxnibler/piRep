@@ -4,11 +4,14 @@
 
 #include <string>
 
+#define MININDAY 390
+
 class StockData{
 private:
   //Base Values
   std::string name;
   int entries;
+  float flux;
   
   //Storage
   std::string history;
@@ -24,14 +27,15 @@ private:
   int countEntries();
   int initialize();
   int populate();
+  
 public:
+  float changePerMin();
   StockData(std::string N, std::string H);
   int printInfo();
   float variance(int);
   int entryCount();
   float highPoint(std::string, std::string);
 };
-  
 
 std::string loadHistory(std::string name);
 

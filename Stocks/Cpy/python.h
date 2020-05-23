@@ -7,3 +7,5 @@
 int getHistory(
       std::string name, std::string period, std::string interval
     );
+
+int getLongHis(std::string);

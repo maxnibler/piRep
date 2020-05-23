@@ -37,6 +37,23 @@ int stringBS(string* A, string str, int s, int e){
   }
 }
 
+string extract(string* H){
+  int stop = (*H).find("  ");
+  //cout << "Extract Found: " << stop << endl;
+  string ret;
+  ret = (*H).substr(0,stop);
+  (*H).erase(0,stop+2);
+  return ret;
+}
+
+bool isDigit(char c){
+  //cout << c << endl;
+  if (c < 48 || c > 57){
+    return 0;
+  }
+  return 1;
+}
+
 int StockData::dateTimeIndex(string d){
   if (d < DateTime[0] || d > DateTime[entries-1]){
     return -1;
@@ -45,13 +62,21 @@ int StockData::dateTimeIndex(string d){
 }
 
 float StockData::highPoint(string fDT, string toDT){
-  cout << fDT << toDT << endl;
+  //cout << fDT << toDT << endl;
   int start, end;
-  end = dateTimeIndex("2020-05-22 14:20:00-04:00");
-  start = dateTimeIndex("2020-05-22 10:06:00-04:00");
-  cout << start << ", " << end << endl;
+  end = dateTimeIndex(toDT);
+  start = dateTimeIndex(fDT);
+  if (end == -1 || start == -1){
+    return -1.0;
+  }
+  //cout << start << ", " << end << endl;
   return High[findPeak(true, High, start, end)];
 }
+
+float StockData::changePerMin(){
+  return flux;
+}
+  
 
 StockData::StockData(string N, string H){
   name = N;
@@ -60,15 +85,6 @@ StockData::StockData(string N, string H){
   //cout << H << endl;
   if (initialize()) exit(-1);
   populate();
-}
-
-string extract(string* H){
-  int stop = (*H).find("  ");
-  //cout << "Extract Found: " << stop << endl;
-  string ret;
-  ret = (*H).substr(0,stop);
-  (*H).erase(0,stop+2);
-  return ret;
 }
 
 int StockData::populate(){
@@ -91,6 +107,10 @@ int StockData::populate(){
     Volume[i] = stoi(temp);
     his.erase(0, his.find("\n"));
   }
+  for(int i = 0; i < entries; i++){
+    flux += abs(Close[i] - Open[i]);
+  }
+  flux /= entries;
   return 0;
 }
 
@@ -123,6 +143,7 @@ int StockData::countEntries(){
 }
 
 int StockData::initialize(){
+  flux = 0;
   countEntries();
   if (entries == 0) return 1;
   Open = new float [entries];
@@ -132,14 +153,6 @@ int StockData::initialize(){
   Volume = new int [entries];
   DateTime = new string [entries];
   return 0;
-}
-
-bool isDigit(char c){
-  //cout << c << endl;
-  if (c < 48 || c > 57){
-    return 0;
-  }
-  return 1;
 }
 
 string loadHistory(string name){
@@ -152,7 +165,7 @@ string loadHistory(string name){
     ss << file.rdbuf();
     str = ss.str();
   }
-  cout << str << endl << endl;
+  //cout << str << endl << endl;
   while(!isDigit(str[0])){
     //cout << "test" << endl;
     int i = str.find('\n');
