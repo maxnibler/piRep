@@ -4,8 +4,6 @@
 
 #include <string>
 
-int getHistory(
-      std::string name, std::string period, std::string interval
-    );
+int getHistory(std::string, std::string, std::string);
 
 int getLongHis(std::string);

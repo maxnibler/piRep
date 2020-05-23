@@ -7,10 +7,13 @@ import yfinance as yf
 
 argumentLen = len(sys.argv)
 
+flag1 = False
+
 if argumentLen < 5:
     exit()
 if argumentLen >= 6:
-    fileName = sys.argv[5]
+    flag1 = True
+    fileSuff = sys.argv[5]
 
 name = sys.argv[1]
 start = sys.argv[2]
@@ -23,7 +26,11 @@ Hist = stockTicker.history(start=start, end=end, interval=inter)
 
 #print(msftHist)
 path = "Database/"
-path = path+name+"_history.txt"
+path = path+name+"/"
+if flag1:
+    path = path+name+fileSuff
+else:
+    path = path+name+"_history.txt"
 #print(path)
 outPath = open(path,'w')
 

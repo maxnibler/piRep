@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fstream>
+#include <chrono>
 
 using namespace std;
 
@@ -40,11 +41,29 @@ int getHistory(string name, string period, string interval){
   return 0;
 }
 
+int intMonth(string m){
+  string Months[] = {"na","January","February","March",
+	         "April","May","June","July","August",
+          "September","October","November","December"};
+  for(int i = 0; i < 13; i++){
+    if (!Months[i].compare(m)) return i;
+  }
+  //cout << m << " " << Months[1] << endl;
+  return 0;
+}
 int getLongHis(string name){
-  string start = formatDate(2020, 5, 1);
-  string end = formatDate(2020, 5, 23);
-  string args[] = {name,start,end,"1d"};
-  pycall("getHistory.py",args,4);
-  system("cat Database/MSFT_history.txt");
+  time_t tt;
+  time(&tt);
+  struct tm * ti = localtime(&tt);
+  string currTime = asctime(ti);
+  int currMonth = intMonth("May");
+  cout << currTime << endl;
+
+  
+  string start = formatDate(2020, currMonth, 1);
+  string end = formatDate(2020, currMonth, 23);
+  string args[] = {name,start,end,"1d","_longHis.txt"};
+  pycall("getHistory.py",args,5);
+  system("cat Database/MSFT/MSFT_longHis.txt");
   return 0;
 }
