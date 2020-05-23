@@ -26,19 +26,30 @@ int findPeak(bool max, float* A, int start, int end){
   return ret;
 }
 
+int stringBS(string* A, string str, int s, int e){
+  int m = (e + s)/2;
+  if (s == e) return s;
+  if (A[m] == str) return m;
+  else if(str < A[m]){
+    return stringBS(A, str, s, m);
+  }else{
+    return stringBS(A, str, m+1, e);
+  }
+}
+
 int StockData::dateTimeIndex(string d){
   if (d < DateTime[0] || d > DateTime[entries-1]){
     return -1;
   }
-  return 0;
+  return stringBS(DateTime, d, 0, entries-1);
 }
 
 float StockData::highPoint(string fDT, string toDT){
   cout << fDT << toDT << endl;
-  cout << dateTimeIndex("2020-05-22 14:20:00-04:00") << endl; 
   int start, end;
-  start = 0;
-  end = entries-1;
+  end = dateTimeIndex("2020-05-22 14:20:00-04:00");
+  start = dateTimeIndex("2020-05-22 10:06:00-04:00");
+  cout << start << ", " << end << endl;
   return High[findPeak(true, High, start, end)];
 }
 

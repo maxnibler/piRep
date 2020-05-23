@@ -23,7 +23,8 @@ int main(/*int argc, char* argv[]*/){
     cout << msft.variance(i) << endl;
   }
   */
-  cout << msft.highPoint(" ", " ") << endl;
+  cout << msft.highPoint
+    ("2020-05-22 10:06:00-04:00", "2020-05-22 14:20:00-04:00") << endl;
   //cout << History << endl;
   //system("cat Database/MSFT_history.txt");
   return 0;
