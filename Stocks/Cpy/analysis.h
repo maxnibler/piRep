@@ -20,7 +20,7 @@ private:
   int * Volume;
 
   //Member Functions
-  int dateTimeIndex(std::string, std::string);
+  int dateTimeIndex(std::string);
   int countEntries();
   int initialize();
   int populate();
@@ -29,7 +29,7 @@ public:
   int printInfo();
   float variance(int);
   int entryCount();
-  float highPoint(std::string, std::string, std::string, std::string);
+  float highPoint(std::string, std::string);
 };
   
 

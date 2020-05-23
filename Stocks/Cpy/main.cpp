@@ -23,7 +23,7 @@ int main(/*int argc, char* argv[]*/){
     cout << msft.variance(i) << endl;
   }
   */
-  cout << msft.highPoint(" ", " ", " ", " ") << endl;
+  cout << msft.highPoint(" ", " ") << endl;
   //cout << History << endl;
   //system("cat Database/MSFT_history.txt");
   return 0;

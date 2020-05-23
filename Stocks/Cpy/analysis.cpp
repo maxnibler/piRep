@@ -26,15 +26,16 @@ int findPeak(bool max, float* A, int start, int end){
   return ret;
 }
 
-int StockData::dateTimeIndex(string d, string t){
-  cout << d << " " << t << endl;
+int StockData::dateTimeIndex(string d){
+  if (d < DateTime[0] || d > DateTime[entries-1]){
+    return -1;
+  }
   return 0;
 }
 
-float StockData::highPoint
-(string fD, string toD, string fT, string toT){
-  cout << fD << toD << fT << toT << endl;
-  dateTimeIndex("date","time"); 
+float StockData::highPoint(string fDT, string toDT){
+  cout << fDT << toDT << endl;
+  cout << dateTimeIndex("2020-05-22 14:20:00-04:00") << endl; 
   int start, end;
   start = 0;
   end = entries-1;
