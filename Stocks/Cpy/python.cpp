@@ -11,8 +11,16 @@
 
 using namespace std;
 
-string formatDate(string inDate){
-  return inDate;
+string formatDate(int y, int m, int d){
+  string date;
+  date = to_string(y);
+  date.append("-");
+  if (m < 10) date.append("0");
+  date.append(to_string(m));
+  date.append("-");
+  if (d < 10) date.append("0");
+  date.append(to_string(d));
+  return date;
 }
 
 int pycall(string fileName, string args[], int len){
@@ -33,7 +41,9 @@ int getHistory(string name, string period, string interval){
 }
 
 int getLongHis(string name){
-  string args[] = {name,"2020-05-19","2020-05-22","1h"};
+  string start = formatDate(2020, 5, 1);
+  string end = formatDate(2020, 5, 23);
+  string args[] = {name,start,end,"1d"};
   pycall("getHistory.py",args,4);
   system("cat Database/MSFT_history.txt");
   return 0;
