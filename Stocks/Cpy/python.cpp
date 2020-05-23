@@ -52,16 +52,27 @@ int intMonth(string m){
   return 0;
 }
 int getLongHis(string name){
+  string currTime, temp, start, end;
   time_t tt;
   time(&tt);
   struct tm * ti = localtime(&tt);
-  string currTime = asctime(ti);
-  int currMonth = intMonth("May");
+  currTime = asctime(ti);
   cout << currTime << endl;
-
+  currTime.erase(0,currTime.find(" ")+1);
+  temp = currTime.substr(0,currTime.find(" "));
+  currTime.erase(0,currTime.find(" ")+1);
+  int currMonth = intMonth(temp);
+  temp = currTime.substr(0,currTime.find(" "));
+  currTime.erase(0,currTime.find(" ")+1);
+  int currDay = stoi(temp);
+  currTime.erase(0,currTime.find(" ")+1);
+  currTime.erase(0,currTime.find(" ")+1);
+  temp = currTime.substr(0,currTime.find("\n"));
+  int currYear = stoi(temp);
+  cout << currMonth << " " << currDay << " " << currYear << endl;
   
-  string start = formatDate(2020, currMonth, 1);
-  string end = formatDate(2020, currMonth, 23);
+  start = formatDate(currYear, currMonth, 1);
+  end = formatDate(currYear, currMonth, currDay);
   string args[] = {name,start,end,"1d","_longHis.txt"};
   pycall("getHistory.py",args,5);
   system("cat Database/MSFT/MSFT_longHis.txt");
