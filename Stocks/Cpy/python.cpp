@@ -35,9 +35,10 @@ int pycall(string fileName, string args[], int len){
   return 0;
 }
 
-int getHistory(string name, string period, string interval){
-  string args[] = {name, period, interval};
-  pycall("getHistory.py", args, 3);
+int getHistory(string name, string s, string e, string interval){
+  string args[] = {name, s, e, interval};
+  //cout << "calling" << endl;
+  pycall("getHistory.py", args, 4);
   return 0;
 }
 

@@ -38,8 +38,11 @@ int stringBS(string* A, string str, int s, int e){
 }
 
 string extract(string* H){
-  int stop = (*H).find("  ");
   //cout << "Extract Found: " << stop << endl;
+  while((*H).find(" ") == 0){
+    (*H).erase(0,1);
+  }
+  int stop = (*H).find("  ");
   string ret;
   ret = (*H).substr(0,stop);
   (*H).erase(0,stop+2);
@@ -155,8 +158,38 @@ int StockData::initialize(){
   return 0;
 }
 
+int StockData::movingAve(int mins){
+  cout << entries << endl;
+  MA = new float [entries-mins];
+  float temp = 0, start = 0, total = 0;
+  bool breaking = false;
+  for(int i = 0; i < mins; i++){
+    temp += (High[i] + Low[i]) / 2;
+  }
+  //cout << temp/(mins) << " " << Close[mins-1] << endl;
+  for(int i = 0; i < entries-mins; i++){
+    temp -= (High[i]+Low[i])/2;
+    temp += (High[i+mins]+Low[i+mins])/2;
+    MA[i] = temp/mins;
+    if (MA[i] < High[i+mins]){
+      if (!breaking){
+	breaking = 1;
+	start = Low[i+mins];
+	//cout << DateTime[i+mins] << endl;
+      }else if (MA[i] > Low[i+mins]){
+	breaking = 0;
+	total += High[i+mins]-start;
+      }
+    }
+  }
+  cout << "total %: " << total/24465.16<< endl;
+  return 0;
+}
+
 string loadHistory(string name){
   string str = "Database/";
+  str.append(name);
+  str.append("/");
   str.append(name);
   str.append("_history.txt");
   ifstream file(str.c_str());

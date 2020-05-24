@@ -21,6 +21,7 @@ private:
   float * Low;
   float * Close;
   int * Volume;
+  float * MA;
 
   //Member Functions
   int dateTimeIndex(std::string);
@@ -35,6 +36,7 @@ public:
   float variance(int);
   int entryCount();
   float highPoint(std::string, std::string);
+  int movingAve(int);
 };
 
 std::string loadHistory(std::string name);
