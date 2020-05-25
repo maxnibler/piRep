@@ -10,11 +10,11 @@ using namespace std;
 
 int main(/*int argc, char* argv[]*/){
   //getLongHis("MSFT");
-  getHistory("^DJI", "2020-05-01", "2020-05-07", "1m");
-  string History = loadHistory("^DJI");
-  StockData msft = StockData("^DJI",History);
+  getHistory("MSFT", "2020-05-01", "2020-05-07", "1m");
+  string History = loadHistory("MSFT");
+  StockData msft = StockData("MSFT",History,50);
   //msft.printInfo();
-  msft.movingAve(200);
+  msft.movingAve(50);
   /*
   for (int i = 0; i < msft.entryCount(); i++){
     cout << msft.variance(i) << endl;

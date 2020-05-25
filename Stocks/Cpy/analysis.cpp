@@ -159,30 +159,32 @@ int StockData::initialize(){
 }
 
 int StockData::movingAve(int mins){
-  cout << entries << endl;
-  MA = new float [entries-mins];
+  //cout << entries << endl;
+  MA = new float [entries-ma];
   float temp = 0, start = 0, total = 0;
   bool breaking = false;
-  for(int i = 0; i < mins; i++){
+  for(int i = 0; i < ma; i++){
     temp += (High[i] + Low[i]) / 2;
   }
   //cout << temp/(mins) << " " << Close[mins-1] << endl;
-  for(int i = 0; i < entries-mins; i++){
+  for(int i = 0; i < entries-ma; i++){
     temp -= (High[i]+Low[i])/2;
     temp += (High[i+mins]+Low[i+mins])/2;
     MA[i] = temp/mins;
     if (MA[i] < High[i+mins]){
       if (!breaking){
 	breaking = 1;
-	start = Low[i+mins];
-	//cout << DateTime[i+mins] << endl;
+	start = Low[i+mins+1];
+	cout << DateTime[i+mins] << " ";
       }else if (MA[i] > Low[i+mins]){
 	breaking = 0;
-	total += High[i+mins]-start;
+	total += High[i+mins+1]-start;
+	cout << DateTime[i+mins+1] << " " << High[i+mins+1]-start
+	     << endl;
       }
     }
   }
-  cout << "total %: " << total/24465.16<< endl;
+  cout << "total %: " << total/185*100<< endl;
   return 0;
 }
 

@@ -26,6 +26,9 @@ clean :
 spotless :
 	rm ${OBJ} ${EXEC}
 
+edit :
+	emacs ${CPP}&
+
 ci :
 	${GIT} ${MESS}
 

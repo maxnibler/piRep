@@ -9,6 +9,7 @@
 class StockData{
 private:
   //Base Values
+  int ma
   std::string name;
   int entries;
   float flux;
