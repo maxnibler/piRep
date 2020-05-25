@@ -14,7 +14,7 @@ int main(/*int argc, char* argv[]*/){
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
   //msft.printInfo();
-  msft.movingAve(50);
+  cout << msft.movingAve() << endl;
   /*
   for (int i = 0; i < msft.entryCount(); i++){
     cout << msft.variance(i) << endl;

@@ -9,10 +9,9 @@
 class StockData{
 private:
   //Base Values
-  int ma
+  int ma;
   std::string name;
   int entries;
-  float flux;
   
   //Storage
   std::string history;
@@ -31,13 +30,14 @@ private:
   int populate();
   
 public:
-  float changePerMin();
-  StockData(std::string N, std::string H);
+  //float changePerMin();
+  StockData(std::string N, std::string H, int);
   int printInfo();
-  float variance(int);
+  //float variance(int);
   int entryCount();
-  float highPoint(std::string, std::string);
-  int movingAve(int);
+  //loat highPoint(std::string, std::string);
+  float movingAve();
+  //int update(std::string,float,float,float,float,int);
 };
 
 std::string loadHistory(std::string name);

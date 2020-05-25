@@ -63,7 +63,7 @@ int StockData::dateTimeIndex(string d){
   }
   return stringBS(DateTime, d, 0, entries-1);
 }
-
+/*
 float StockData::highPoint(string fDT, string toDT){
   //cout << fDT << toDT << endl;
   int start, end;
@@ -79,10 +79,10 @@ float StockData::highPoint(string fDT, string toDT){
 float StockData::changePerMin(){
   return flux;
 }
-  
-
-StockData::StockData(string N, string H){
+*/
+StockData::StockData(string N, string H, int m){
   name = N;
+  ma = m;
   //cout << N << ": " << endl;
   history = H;
   //cout << H << endl;
@@ -110,10 +110,16 @@ int StockData::populate(){
     Volume[i] = stoi(temp);
     his.erase(0, his.find("\n"));
   }
-  for(int i = 0; i < entries; i++){
-    flux += abs(Close[i] - Open[i]);
+  float t = 0;
+  for(int i = 0; i < ma; i++){
+    t += (High[i] + Low[i]) / 2;
   }
-  flux /= entries;
+  for(int i = 0; i < entries-ma; i++){
+    t -= (High[i]+Low[i])/2;
+    t += (High[i+ma]+Low[i+ma])/2;
+    MA[i] = t/ma;
+    cout << MA[i] << endl;
+  }
   return 0;
 }
 
@@ -130,11 +136,11 @@ int StockData::printInfo(){
 int StockData::entryCount(){
   return entries;
 }
-
+/*
 float StockData::variance(int ind){
   return High[ind] - Low[ind];
 }
-
+*/
 int StockData::countEntries(){
   entries = 0;
   int len = history.length();
@@ -146,7 +152,6 @@ int StockData::countEntries(){
 }
 
 int StockData::initialize(){
-  flux = 0;
   countEntries();
   if (entries == 0) return 1;
   Open = new float [entries];
@@ -155,37 +160,29 @@ int StockData::initialize(){
   Close = new float [entries];
   Volume = new int [entries];
   DateTime = new string [entries];
+  MA = new float [entries-ma];
   return 0;
 }
 
-int StockData::movingAve(int mins){
+float StockData::movingAve(){
   //cout << entries << endl;
-  MA = new float [entries-ma];
-  float temp = 0, start = 0, total = 0;
-  bool breaking = false;
-  for(int i = 0; i < ma; i++){
-    temp += (High[i] + Low[i]) / 2;
-  }
   //cout << temp/(mins) << " " << Close[mins-1] << endl;
-  for(int i = 0; i < entries-ma; i++){
-    temp -= (High[i]+Low[i])/2;
-    temp += (High[i+mins]+Low[i+mins])/2;
-    MA[i] = temp/mins;
+    /*
     if (MA[i] < High[i+mins]){
       if (!breaking){
 	breaking = 1;
-	start = Low[i+mins+1];
-	cout << DateTime[i+mins] << " ";
+	start = Open[i+mins+1];
+	//cout << DateTime[i+mins] << " ";
       }else if (MA[i] > Low[i+mins]){
 	breaking = 0;
-	total += High[i+mins+1]-start;
-	cout << DateTime[i+mins+1] << " " << High[i+mins+1]-start
-	     << endl;
+	total += Open[i+mins+1]-start;
+	//cout << DateTime[i+mins+1] << " " << Open[i+mins+1]-start
+	//<< endl;
       }
     }
-  }
-  cout << "total %: " << total/185*100<< endl;
-  return 0;
+    */
+  //cout << "total %: " << total<< endl;
+  return MA[entries-ma-1];
 }
 
 string loadHistory(string name){
