@@ -35,6 +35,12 @@ int pycall(string fileName, string args[], int len){
   return 0;
 }
 
+int getUpdate(string name){
+  string args[] = {name};
+  pycall("getUpdate.py",args,1);
+  return 0;
+}
+
 int getHistory(string name, string s, string e, string interval){
   string args[] = {name, s, e, interval};
   //cout << "calling" << endl;

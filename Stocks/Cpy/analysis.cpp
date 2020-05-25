@@ -93,13 +93,17 @@ StockData::StockData(string N, string H, int m){
 int StockData::populate(){
   string his = history;
   string temp;
-  for(int i = 0; i < entries; i++){
+  for(int i = 0; i <= entries-ma; i++){
+    his.erase(0,his.find("\n"));
+    //cout << i << " " << entries << endl;
+  }
+  for(int i = 0; i < ma; i++){
     temp = extract(&his);
     if (temp[0] == '\n') temp.erase(0,1);
     DateTime[i] = temp;
     temp = extract(&his);
     Open[i] = stof(temp);
-    //cout << Open[i] << endl;
+    //cout << Open[i] << " " << i << endl;
     temp = extract(&his);
     High[i] = stof(temp);
     temp = extract(&his);
@@ -110,16 +114,12 @@ int StockData::populate(){
     Volume[i] = stoi(temp);
     his.erase(0, his.find("\n"));
   }
-  float t = 0;
+  total = 0;
   for(int i = 0; i < ma; i++){
-    t += (High[i] + Low[i]) / 2;
+    total += (High[i]+Low[i])/2;
   }
-  for(int i = 0; i < entries-ma; i++){
-    t -= (High[i]+Low[i])/2;
-    t += (High[i+ma]+Low[i+ma])/2;
-    MA[i] = t/ma;
-    cout << MA[i] << endl;
-  }
+  entries = ma;
+  //cout << total << endl;
   return 0;
 }
 
@@ -131,6 +131,14 @@ int StockData::printInfo(){
 	   Open[i],High[i],Low[i],Close[i],Volume[i]);
   }
   return 0;
+}
+
+string StockData::getName(){
+  return name;
+}
+
+string StockData::lastTime(){
+  return DateTime[counter];
 }
 
 int StockData::entryCount(){
@@ -154,35 +162,40 @@ int StockData::countEntries(){
 int StockData::initialize(){
   countEntries();
   if (entries == 0) return 1;
-  Open = new float [entries];
-  High = new float [entries];
-  Low = new float [entries];
-  Close = new float [entries];
-  Volume = new int [entries];
-  DateTime = new string [entries];
-  MA = new float [entries-ma];
+  Open = new float [ma];
+  High = new float [ma];
+  Low = new float [ma];
+  Close = new float [ma];
+  Volume = new int [ma];
+  DateTime = new string [ma];
+  //MA = new float [ma];
+  counter = ma-1;
   return 0;
 }
 
+int StockData::update(string up){
+  counter = (counter + 1) % ma;
+  string temp;
+  temp = extract(&up);
+  DateTime[counter] = temp;
+  temp = extract(&up);
+  cout << temp << endl;
+  /*
+  total -= (High[counter]+Low[counter])/2;
+  DateTime[counter] = d;
+  Open[counter] = o;
+  Close[counter] = c;
+  High[counter] = h;
+  Low[counter] = l;
+  Volume[counter] = v;
+  total += (h+l)/2;
+  */
+  cout << up;
+  return 0;
+} 
+
 float StockData::movingAve(){
-  //cout << entries << endl;
-  //cout << temp/(mins) << " " << Close[mins-1] << endl;
-    /*
-    if (MA[i] < High[i+mins]){
-      if (!breaking){
-	breaking = 1;
-	start = Open[i+mins+1];
-	//cout << DateTime[i+mins] << " ";
-      }else if (MA[i] > Low[i+mins]){
-	breaking = 0;
-	total += Open[i+mins+1]-start;
-	//cout << DateTime[i+mins+1] << " " << Open[i+mins+1]-start
-	//<< endl;
-      }
-    }
-    */
-  //cout << "total %: " << total<< endl;
-  return MA[entries-ma-1];
+  return total/ma;
 }
 
 string loadHistory(string name){

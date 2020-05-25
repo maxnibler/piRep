@@ -12,6 +12,8 @@ private:
   int ma;
   std::string name;
   int entries;
+  float total;
+  int counter;
   
   //Storage
   std::string history;
@@ -21,7 +23,7 @@ private:
   float * Low;
   float * Close;
   int * Volume;
-  float * MA;
+  //float * MA;
 
   //Member Functions
   int dateTimeIndex(std::string);
@@ -33,12 +35,15 @@ public:
   //float changePerMin();
   StockData(std::string N, std::string H, int);
   int printInfo();
+  std::string getName();
   //float variance(int);
   int entryCount();
   //loat highPoint(std::string, std::string);
   float movingAve();
-  //int update(std::string,float,float,float,float,int);
+  int update(std::string);
+  std::string lastTime();
 };
 
 std::string loadHistory(std::string name);
 
+bool isDigit(char c);

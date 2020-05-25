@@ -7,3 +7,5 @@
 int getHistory(std::string, std::string, std::string, std::string);
 
 int getLongHis(std::string);
+
+int getUpdate(std::string);
