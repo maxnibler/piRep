@@ -174,23 +174,26 @@ int StockData::initialize(){
 }
 
 int StockData::update(string up){
-  counter = (counter + 1) % ma;
   string temp;
   temp = extract(&up);
+  //If last date is same. Skip this update.
+  if (!DateTime[counter].compare(temp)) return -1;
+  counter = (counter + 1) % ma;
   DateTime[counter] = temp;
   temp = extract(&up);
   cout << temp << endl;
-  /*
   total -= (High[counter]+Low[counter])/2;
-  DateTime[counter] = d;
-  Open[counter] = o;
-  Close[counter] = c;
-  High[counter] = h;
-  Low[counter] = l;
-  Volume[counter] = v;
-  total += (h+l)/2;
-  */
-  cout << up;
+  Open[counter] = stof(temp);
+  temp = extract(&up);
+  High[counter] = stof(temp);
+  temp = extract(&up);
+  Low[counter] = stof(temp);
+  temp = extract(&up);
+  Close[counter] = stof(temp);
+  temp = extract(&up);
+  Volume[counter] = stoi(temp);
+  total += (High[counter]+Low[counter])/2;
+  //cout << up;
   return 0;
 } 
 

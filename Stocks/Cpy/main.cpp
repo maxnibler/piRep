@@ -42,8 +42,13 @@ int main(/*int argc, char* argv[]*/){
   //cout << msft.movingAve() << " " << msft.lastTime() << endl;
   //cout << msft.lastTime() << endl;
   msft.printInfo();
-  History = update(msft);
-  msft.update(History);
+
+  //while(true){
+    History = update(msft);
+    //cout << History << endl;
+    msft.update(History);
+    //}
+    msft.printInfo();
   /*
   for (int i = 0; i < msft.entryCount(); i++){
     cout << msft.variance(i) << endl;
