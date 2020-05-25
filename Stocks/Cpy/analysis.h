@@ -14,6 +14,8 @@ private:
   int entries;
   float total;
   int counter;
+  bool holding;
+  float purchased;
   
   //Storage
   std::string history;
@@ -42,6 +44,11 @@ public:
   float movingAve();
   int update(std::string);
   std::string lastTime();
+  bool own();
+  int buy(FILE*);
+  float high();
+  float low();
+  float sell(FILE*);
 };
 
 std::string loadHistory(std::string name);

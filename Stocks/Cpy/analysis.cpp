@@ -6,6 +6,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <stdio.h>
 #include "analysis.h"
 
 using namespace std;
@@ -93,9 +94,9 @@ StockData::StockData(string N, string H, int m){
 int StockData::populate(){
   string his = history;
   string temp;
-  for(int i = 0; i <= entries-ma; i++){
-    his.erase(0,his.find("\n"));
-    //cout << i << " " << entries << endl;
+  for(int i = 0; i < entries-ma; i++){
+    his.erase(0,his.find("\n")+1);
+    //cout << his << endl;
   }
   for(int i = 0; i < ma; i++){
     temp = extract(&his);
@@ -170,6 +171,7 @@ int StockData::initialize(){
   DateTime = new string [ma];
   //MA = new float [ma];
   counter = ma-1;
+  holding = false;
   return 0;
 }
 
@@ -177,11 +179,11 @@ int StockData::update(string up){
   string temp;
   temp = extract(&up);
   //If last date is same. Skip this update.
-  if (!DateTime[counter].compare(temp)) return -1;
+  if (!DateTime[counter].compare(temp)) return 0;
   counter = (counter + 1) % ma;
   DateTime[counter] = temp;
   temp = extract(&up);
-  cout << temp << endl;
+  //cout << temp << endl;
   total -= (High[counter]+Low[counter])/2;
   Open[counter] = stof(temp);
   temp = extract(&up);
@@ -194,11 +196,38 @@ int StockData::update(string up){
   Volume[counter] = stoi(temp);
   total += (High[counter]+Low[counter])/2;
   //cout << up;
-  return 0;
+  return 1;
 } 
 
 float StockData::movingAve(){
   return total/ma;
+}
+
+float StockData::high(){
+  return High[counter];
+}
+
+float StockData::low(){
+  return Low[counter];
+}
+
+int StockData::buy(FILE * log){
+  purchased = Close[counter];
+  fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
+  holding = true;
+  return 0;
+}
+
+bool StockData::own(){
+  return holding;
+}
+
+float StockData::sell(FILE * log){
+  float net = Close[counter]-purchased;
+  fprintf(log,"Sold %s at :%f for %f dollars profit\n",
+	  name.c_str(),Close[counter],net);
+  holding = false;
+  return net;
 }
 
 string loadHistory(string name){

@@ -47,7 +47,7 @@ int getHistory(string name, string s, string e, string interval){
   pycall("getHistory.py", args, 4);
   return 0;
 }
-
+/*
 int intMonth(string m){
   string Months[] = {"na","January","February","March",
 	         "April","May","June","July","August",
@@ -58,6 +58,7 @@ int intMonth(string m){
   //cout << m << " " << Months[1] << endl;
   return 0;
 }
+
 int getLongHis(string name){
   string currTime, temp, start, end;
   time_t tt;
@@ -85,3 +86,4 @@ int getLongHis(string name){
   system("cat Database/MSFT/MSFT_longHis.txt");
   return 0;
 }
+*/
