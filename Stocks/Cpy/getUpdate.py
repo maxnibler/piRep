@@ -13,7 +13,7 @@ if argLen != 2:
 name = sys.argv[1]
 stockTicker = yf.Ticker(name)
 #print("ticker set")
-update = stockTicker.history(period="1m",interval="1m")
+update = stockTicker.history(period="1d",interval="1m")
 #print("api call made")
 path = "Database/"
 path = path+name+"/"+name+"_update.txt"
