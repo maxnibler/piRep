@@ -38,7 +38,7 @@ int main(/*int argc, char* argv[]*/){
   FILE * log;
   log = fopen("log.txt", "a");
   //getLongHis("MSFT");
-  getHistory("MSFT", "2020-05-21", "2020-05-24", "1m");
+  getHistory("MSFT", "2020-05-21", "2020-05-27", "1m");
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
   //msft.printInfo();
