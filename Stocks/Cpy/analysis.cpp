@@ -179,17 +179,39 @@ string isolate(string up){
   string temp;
   while(up.length() > up.find("\n")+1){
     temp = up.substr(0,up.find("\n"));
-    cout << up.length() << " " << up.find("\n") << endl;
+    //cout << up.length() << " " << up.find("\n") << endl;
     up.erase(0,up.find("\n")+1);
   }
-  cout << temp << up << endl;
-  return up;
+  temp.append("\n");
+  temp.append(up);
+  //cout << temp << endl;
+  return temp;
+}
+
+float testEntry(string str){
+  str.erase(0,str.find("\n"));
+  string temp = extract(&str);
+  cout << temp << endl;
+  temp = extract(&str);
+  cout << temp << endl;
+  for (int i = 0; i < 3; i++){
+    if (temp.compare(extract(&str))) return -1;
+  }
+  return stof(temp);
 }
 
 int StockData::update(string up){
-  isolate(up);
-  /*
-  string temp;
+  up = isolate(up);
+  string temp = up;
+  float price = testEntry(temp);
+  int ret;
+  if (price == -1){
+    ret = 0;
+    up.erase(0,up.find("\n"));
+  }else{
+    recent = price;
+    ret = 1;
+  }
   temp = extract(&up);
   //If last date is same. Skip this update.
   if (!DateTime[counter].compare(temp)) return 0;
@@ -209,19 +231,15 @@ int StockData::update(string up){
   Volume[counter] = stoi(temp);
   total += (High[counter]+Low[counter])/2;
   //cout << up;*/
-  return 1;
+  return ret;
 } 
 
 float StockData::movingAve(){
   return total/ma;
 }
 
-float StockData::high(){
-  return High[counter];
-}
-
-float StockData::low(){
-  return Low[counter];
+float StockData::price(){
+  return recent;
 }
 
 int StockData::buy(FILE * log){

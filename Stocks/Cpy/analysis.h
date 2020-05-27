@@ -47,8 +47,7 @@ public:
   std::string lastTime();
   bool own();
   int buy(FILE*);
-  float high();
-  float low();
+  float price();
   float sell(FILE*);
 };
 
