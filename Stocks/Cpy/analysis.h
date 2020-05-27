@@ -16,6 +16,7 @@ private:
   int counter;
   bool holding;
   float purchased;
+  float recent;
   
   //Storage
   std::string history;

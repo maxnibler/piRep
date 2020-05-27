@@ -34,12 +34,16 @@ string update(StockData SD){
   
 
 int main(/*int argc, char* argv[]*/){
-  FILE * log;
-  log = fopen("log.txt", "a");
+  
+  //FILE * log;
+  //log = fopen("log.txt", "a");
   //getLongHis("MSFT");
   getHistory("MSFT", "2020-05-21", "2020-05-24", "1m");
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
+  History = update(msft);
+  msft.update(History);
+  /*
   //msft.printInfo();
   //cout << msft.movingAve() << " " << msft.lastTime() << endl;
   //cout << msft.lastTime() << endl;
@@ -61,6 +65,6 @@ int main(/*int argc, char* argv[]*/){
       }
     }
   fprintf(log,"Running total: %f",net);
-  }
+  }*/
   return 0;
 }

@@ -175,7 +175,20 @@ int StockData::initialize(){
   return 0;
 }
 
+string isolate(string up){
+  string temp;
+  while(up.length() > up.find("\n")+1){
+    temp = up.substr(0,up.find("\n"));
+    cout << up.length() << " " << up.find("\n") << endl;
+    up.erase(0,up.find("\n")+1);
+  }
+  cout << temp << up << endl;
+  return up;
+}
+
 int StockData::update(string up){
+  isolate(up);
+  /*
   string temp;
   temp = extract(&up);
   //If last date is same. Skip this update.
@@ -195,7 +208,7 @@ int StockData::update(string up){
   temp = extract(&up);
   Volume[counter] = stoi(temp);
   total += (High[counter]+Low[counter])/2;
-  //cout << up;
+  //cout << up;*/
   return 1;
 } 
 
