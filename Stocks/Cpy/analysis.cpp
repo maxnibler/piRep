@@ -243,7 +243,7 @@ float StockData::price(){
 }
 
 int StockData::buy(FILE * log){
-  purchased = Close[counter];
+  purchased = recent;
   fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
   holding = true;
   return 0;
@@ -254,7 +254,7 @@ bool StockData::own(){
 }
 
 float StockData::sell(FILE * log){
-  float net = Close[counter]-purchased;
+  float net = recent-purchased;
   fprintf(log,"Sold %s at :%f for %f dollars profit\n",
 	  name.c_str(),Close[counter],net);
   holding = false;
