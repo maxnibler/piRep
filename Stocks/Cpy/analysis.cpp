@@ -184,16 +184,16 @@ string isolate(string up){
   }
   temp.append("\n");
   temp.append(up);
-  //cout << temp << endl;
+  //cout << temp;
   return temp;
 }
 
 float testEntry(string str){
-  str.erase(0,str.find("\n"));
+  str.erase(0,str.find("\n")+1);
   string temp = extract(&str);
-  cout << temp << endl;
+  //cout << temp << endl;
   temp = extract(&str);
-  cout << temp << endl;
+  //cout << temp << endl;
   for (int i = 0; i < 3; i++){
     if (temp.compare(extract(&str))) return -1;
   }
@@ -207,7 +207,7 @@ int StockData::update(string up){
   int ret;
   if (price == -1){
     ret = 0;
-    up.erase(0,up.find("\n"));
+    up.erase(0,up.find("\n")+1);
   }else{
     recent = price;
     ret = 1;

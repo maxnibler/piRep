@@ -48,9 +48,10 @@ int main(/*int argc, char* argv[]*/){
   float net;
   while(true){
     History = update(msft);
-    cout << History << endl;
+    //msft.printInfo();
+    //cout << History << endl;
     if (msft.update(History)){
-      //cout << "updated" << endl;
+      cout << "updated" << endl;
       if (msft.own()){
 	if (msft.movingAve() > msft.price()){
 	  net += msft.sell(log);
