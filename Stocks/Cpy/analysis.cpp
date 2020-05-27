@@ -204,13 +204,13 @@ int StockData::update(string up){
   up = isolate(up);
   string temp = up;
   float price = testEntry(temp);
-  int ret;
+  //int ret;
   if (price == -1){
-    ret = 0;
+    //ret = 1;
     up.erase(0,up.find("\n")+1);
   }else{
     recent = price;
-    ret = 1;
+    //ret = 1;
   }
   temp = extract(&up);
   //If last date is same. Skip this update.
@@ -231,7 +231,7 @@ int StockData::update(string up){
   Volume[counter] = stoi(temp);
   total += (High[counter]+Low[counter])/2;
   //cout << up;*/
-  return ret;
+  return 1;
 } 
 
 float StockData::movingAve(){

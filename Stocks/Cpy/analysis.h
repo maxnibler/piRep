@@ -6,6 +6,24 @@
 
 #define MININDAY 390
 
+class StockEntry{
+private:
+  std::string dateTime;
+  float open;
+  float high;
+  float low;
+  float close;
+  int volume;
+public:
+  StockEntry(std::string);
+  float getOpen();
+  float getLow();
+  float getHigh();
+  float getClose();
+  float getVolume();
+  bool isCurrent();
+};
+
 class StockData{
 private:
   //Base Values

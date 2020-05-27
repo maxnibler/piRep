@@ -37,7 +37,7 @@ int main(/*int argc, char* argv[]*/){
   FILE * log;
   log = fopen("log.txt", "a");
   //getLongHis("MSFT");
-  getHistory("MSFT", "2020-05-21", "2020-05-27", "1m");
+  getHistory("MSFT", "2020-05-21", "2020-05-28", "1m");
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
   //msft.printInfo();
@@ -47,7 +47,7 @@ int main(/*int argc, char* argv[]*/){
   float net;
   while(true){
     History = update(msft);
-    //msft.printInfo();
+    msft.printInfo();
     //cout << History << endl;
     if (msft.update(History)){
       cout << "updated" << endl;
