@@ -37,17 +37,17 @@ int main(/*int argc, char* argv[]*/){
   FILE * log;
   log = fopen("log.txt", "a");
   //getLongHis("MSFT");
-  getHistory("MSFT", "2020-05-21", "2020-05-27", "1m");
-  string History = loadHistory("MSFT");
-  StockData msft = StockData("MSFT",History,50);
+  getHistory("COTY", "2020-05-23", "2020-05-27", "1m");
+  string History = loadHistory("COTY");
+  StockData msft = StockData("COTY",History,50);
   //msft.printInfo();
   //cout << msft.movingAve() << " " << msft.lastTime() << endl;
   //cout << msft.lastTime() << endl;
-  //msft.printInfo();
+  msft.printInfo();
   float net;
   while(true){
     History = update(msft);
-    //cout << History << endl;
+    cout << History << endl;
     if (msft.update(History)){
       //cout << "updated" << endl;
       if (msft.own()){
@@ -60,8 +60,8 @@ int main(/*int argc, char* argv[]*/){
 	  msft.buy(log);
 	}
       }
-    }
-  fprintf(log,"Running total: %f",net);
+    }else break;
+    fprintf(log,"Running total: %f\n",net);
   }
   return 0;
 }
