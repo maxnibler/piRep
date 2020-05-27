@@ -20,8 +20,9 @@ public:
   float getLow();
   float getHigh();
   float getClose();
-  float getVolume();
+  int getVolume();
   bool isCurrent();
+  int print();
 };
 
 class StockData{

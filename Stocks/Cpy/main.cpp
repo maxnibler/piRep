@@ -33,22 +33,22 @@ string update(StockData SD){
 }
   
 
-int main(/*int argc, char* argv[]*/){  
+int main(/*int argc, char* argv[]*/){
+  StockEntry entry =
+    StockEntry("2020-05-27 15:50:00-04:00  181.37  181.37  181.37  181.37   0          0             0\n");
+  entry.print();
+  /*
+  
   FILE * log;
   log = fopen("log.txt", "a");
-  //getLongHis("MSFT");
   getHistory("MSFT", "2020-05-21", "2020-05-28", "1m");
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
-  //msft.printInfo();
-  //cout << msft.movingAve() << " " << msft.lastTime() << endl;
-  //cout << msft.lastTime() << endl;
   msft.printInfo();
   float net;
   while(true){
     History = update(msft);
     msft.printInfo();
-    //cout << History << endl;
     if (msft.update(History)){
       cout << "updated" << endl;
       if (msft.own()){
@@ -63,7 +63,8 @@ int main(/*int argc, char* argv[]*/){
 	}
       }
     }
-    //fprintf(log,"Running total: %f\n",net);
   }
+
+  */
   return 0;
 }

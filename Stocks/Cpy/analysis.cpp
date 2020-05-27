@@ -12,6 +12,7 @@
 using namespace std;
 
 
+
 //Set max to "true" to find max and "false" to find min
 int findPeak(bool max, float* A, int start, int end){
   int ret = start;
@@ -48,6 +49,56 @@ string extract(string* H){
   ret = (*H).substr(0,stop);
   (*H).erase(0,stop+2);
   return ret;
+}
+
+StockEntry::StockEntry(string str){
+  string temp = extract(&str);
+  //cout << str;
+  dateTime = temp;
+  temp = extract(&str);
+  open = stof(temp);
+  temp = extract(&str);
+  high = stof(temp);
+  temp = extract(&str);
+  low = stof(temp);
+  temp = extract(&str);
+  close = stof(temp);
+  temp = extract(&str);
+  volume = stoi(temp);
+  //cout << str;
+}
+
+float StockEntry::getOpen(){
+  return open;
+}
+
+float StockEntry::getLow(){
+  return low;
+}
+
+float StockEntry::getHigh(){
+  return high;
+}
+
+float StockEntry::getClose(){
+  return close;
+}
+
+int StockEntry::getVolume(){
+  return volume;
+}
+
+bool StockEntry::isCurrent(){
+  if (open != low) return 0;
+  if (close != high) return 0;
+  if (high != low) return 0;
+  if (volume != 0) return 0;
+  return 1;
+}
+
+int StockEntry::print(){
+  printf("%s: %f %f %f %f\n",dateTime.c_str(),open,high,low,close);
+  return 0;
 }
 
 bool isDigit(char c){
