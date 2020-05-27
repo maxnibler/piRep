@@ -33,8 +33,7 @@ string update(StockData SD){
 }
   
 
-int main(/*int argc, char* argv[]*/){
-  
+int main(/*int argc, char* argv[]*/){  
   FILE * log;
   log = fopen("log.txt", "a");
   //getLongHis("MSFT");
@@ -56,6 +55,7 @@ int main(/*int argc, char* argv[]*/){
 	if (msft.movingAve() > msft.price()){
 	  net += msft.sell(log);
 	  cout << "Current Net: " << net << endl;
+	  fprintf(log,"Running Total: %f\n",net);
 	}
       }else{
 	if (msft.movingAve() < msft.price()){
@@ -63,7 +63,7 @@ int main(/*int argc, char* argv[]*/){
 	}
       }
     }
-  fprintf(log,"Running total: %f",net);
+    //fprintf(log,"Running total: %f\n",net);
   }
   return 0;
 }
