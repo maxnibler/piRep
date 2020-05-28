@@ -47,7 +47,7 @@ int main(/*int argc, char* argv[]*/){
   float net;
   while(true){
     History = update(msft);
-    msft.printInfo();
+    //msft.printInfo();
     //cout << History << endl;
     if (msft.update(History)){
       cout << "updated" << endl;
