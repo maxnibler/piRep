@@ -34,17 +34,15 @@ string update(StockData SD){
   
 
 int main(/*int argc, char* argv[]*/){
-  StockEntry entry =
-    StockEntry("2020-05-27 15:50:00-04:00  181.37  181.37  181.37  181.37   0          0             0\n");
-  entry.print();
-  /*
   
-  FILE * log;
-  log = fopen("log.txt", "a");
+  
+  //FILE * log;
+  //log = fopen("log.txt", "a");
   getHistory("MSFT", "2020-05-21", "2020-05-28", "1m");
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
   msft.printInfo();
+  /*
   float net;
   while(true){
     History = update(msft);
@@ -65,6 +63,6 @@ int main(/*int argc, char* argv[]*/){
     }
   }
 
-  */
+  //*/
   return 0;
 }

@@ -15,7 +15,9 @@ private:
   float close;
   int volume;
 public:
-  StockEntry(std::string);
+  StockEntry();
+  int fill(std::string);
+  std::string getTime();
   float getOpen();
   float getLow();
   float getHigh();
@@ -30,7 +32,6 @@ private:
   //Base Values
   int ma;
   std::string name;
-  int entries;
   float total;
   int counter;
   bool holding;
@@ -38,7 +39,8 @@ private:
   float recent;
   
   //Storage
-  std::string history;
+  StockEntry immediate;
+  StockEntry* Entries;
   std::string * DateTime;
   float * Open;
   float * High;
@@ -49,9 +51,9 @@ private:
 
   //Member Functions
   int dateTimeIndex(std::string);
-  int countEntries();
+  int countEntries(std::string);
   int initialize();
-  int populate();
+  int populate(std::string);
   
 public:
   //float changePerMin();
