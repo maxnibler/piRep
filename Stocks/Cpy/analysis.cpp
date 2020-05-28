@@ -158,9 +158,9 @@ int StockData::populate(string his){
     temp = his.substr(0,nwline);
     his.erase(0,nwline+1);
     //cout << x << endl;
+    counter = (counter+1)%ma;
     Entries[counter].fill(temp);
     //Entries[c].print();
-    counter = (counter+1)%ma;
     nwline = his.find("\n");
   }/*
   for(int i = 0; i < entries-ma; i++){
@@ -208,7 +208,7 @@ string StockData::getName(){
 }
 
 string StockData::lastTime(){
-  return DateTime[counter];
+  return Entries[counter].getTime();
 }
 
 int StockData::entryCount(){
@@ -263,35 +263,22 @@ float testEntry(string str){
 
 int StockData::update(string up){
   up = isolate(up);
-  string temp = up;
-  float price = testEntry(temp);
-  //int ret;
-  if (price == -1){
-    //ret = 1;
-    up.erase(0,up.find("\n")+1);
+  StockEntry entry1 = StockEntry();
+  StockEntry entry2 = StockEntry();
+  entry1.fill(up.substr(0,up.find("\n")));
+  up.erase(0,up.find("\n")+1);
+  entry2.fill(up);
+  cout << endl;
+  entry1.print();
+  entry2.print();
+  counter = (counter+1)%ma;
+  if (entry2.isCurrent()){
+    immediate = entry2;
+    Entries[counter] = entry1;
   }else{
-    recent = price;
-    //ret = 1;
+    Entries[counter] = entry2;
   }
-  temp = extract(&up);
-  //If last date is same. Skip this update.
-  if (!DateTime[counter].compare(temp)) return 0;
-  counter = (counter + 1) % ma;
-  DateTime[counter] = temp;
-  temp = extract(&up);
-  //cout << temp << endl;
-  total -= (High[counter]+Low[counter])/2;
-  Open[counter] = stof(temp);
-  temp = extract(&up);
-  High[counter] = stof(temp);
-  temp = extract(&up);
-  Low[counter] = stof(temp);
-  temp = extract(&up);
-  Close[counter] = stof(temp);
-  temp = extract(&up);
-  Volume[counter] = stoi(temp);
-  total += (High[counter]+Low[counter])/2;
-  //cout << up;*/
+  Entries[counter].print();
   return 1;
 } 
 
@@ -317,7 +304,7 @@ bool StockData::own(){
 float StockData::sell(FILE * log){
   float net = recent-purchased;
   fprintf(log,"Sold %s at :%f for %f dollars profit\n",
-	  name.c_str(),Close[counter],net);
+	  name.c_str(),Entries[counter].getClose(),net);
   holding = false;
   return net;
 }

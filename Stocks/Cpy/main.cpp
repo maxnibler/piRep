@@ -42,6 +42,8 @@ int main(/*int argc, char* argv[]*/){
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
   msft.printInfo();
+    History = update(msft);
+    msft.update(History);
   /*
   float net;
   while(true){

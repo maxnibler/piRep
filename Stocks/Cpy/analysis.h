@@ -25,6 +25,7 @@ public:
   int getVolume();
   bool isCurrent();
   int print();
+  bool later(StockEntry);
 };
 
 class StockData{
@@ -41,12 +42,6 @@ private:
   //Storage
   StockEntry immediate;
   StockEntry* Entries;
-  std::string * DateTime;
-  float * Open;
-  float * High;
-  float * Low;
-  float * Close;
-  int * Volume;
   //float * MA;
 
   //Member Functions
