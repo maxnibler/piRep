@@ -36,19 +36,17 @@ string update(StockData SD){
 int main(/*int argc, char* argv[]*/){
   
   
-  //FILE * log;
-  //log = fopen("log.txt", "a");
+  FILE * log;
+  log = fopen("log.txt", "a");
   getHistory("MSFT", "2020-05-21", "2020-05-28", "1m");
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
   msft.printInfo();
-    History = update(msft);
-    msft.update(History);
-  /*
+  
   float net;
   while(true){
     History = update(msft);
-    msft.printInfo();
+    //msft.printInfo();
     if (msft.update(History)){
       cout << "updated" << endl;
       if (msft.own()){

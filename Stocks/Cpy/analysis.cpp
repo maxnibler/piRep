@@ -54,6 +54,12 @@ string extract(string* H){
 StockEntry::StockEntry(){
 }
 
+bool StockEntry::isBefore(StockEntry e){
+  //cout << dateTime << " " << e.getTime() << endl;
+  if (dateTime >= e.getTime())  return 0;
+  return 1;
+}     
+
 int StockEntry::fill(string str){
   string temp = extract(&str);
   //cout << str;
@@ -268,18 +274,29 @@ int StockData::update(string up){
   entry1.fill(up.substr(0,up.find("\n")));
   up.erase(0,up.find("\n")+1);
   entry2.fill(up);
-  cout << endl;
-  entry1.print();
-  entry2.print();
-  counter = (counter+1)%ma;
-  if (entry2.isCurrent()){
-    immediate = entry2;
-    Entries[counter] = entry1;
-  }else{
-    Entries[counter] = entry2;
+  //cout << endl;
+  //entry1.print();
+  //entry2.print();
+  if (Entries[counter].isBefore(entry1)){
+    //cout << "well" << endl;
+    counter = (counter+1)%ma;
+    if (entry2.isCurrent()){
+      immediate = entry2;
+      Entries[counter] = entry1;
+    }else{
+      Entries[counter] = entry2;
+    }
+    Entries[counter].print();
+    return 1;
+  }else if(Entries[counter].isBefore(entry2)){
+    if (entry2.isCurrent()){
+      immediate = entry2;
+    }else{
+      Entries[counter] = entry2;
+    }
+    return 1;
   }
-  Entries[counter].print();
-  return 1;
+  return 0;
 } 
 
 float StockData::movingAve(){

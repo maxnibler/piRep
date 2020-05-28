@@ -25,7 +25,7 @@ public:
   int getVolume();
   bool isCurrent();
   int print();
-  bool later(StockEntry);
+  bool isBefore(StockEntry);
 };
 
 class StockData{
