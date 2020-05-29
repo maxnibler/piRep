@@ -55,18 +55,17 @@ int main(/*int argc, char* argv[]*/){
     logFile = fopen("log.txt", "a");
     History = update(msft);
     //msft.printInfo();
-    if (msft.update(History)){
-      cout << "updated" << endl;
-      if (msft.own()){
-	if (msft.movingAve() > msft.price()){
-	  net += msft.sell(logFile);
-	  cout << "Current Net: " << net << endl;
-	  fprintf(logFile,"Running Total: %f\n",net);
-	}
-      }else{
-	if (msft.movingAve() < msft.price()){
-	  msft.buy(logFile);
-	}
+    //cout << "updated" << endl;
+    msft.update(History);
+    if (msft.own()){
+      if (msft.movingAve() > msft.price()){
+	net += msft.sell(logFile);
+        cout << "Current Net: " << net << endl;
+	fprintf(logFile,"Running Total: %f\n",net);
+      }
+    }else{
+      if (msft.movingAve() < msft.price()){
+	msft.buy(logFile);
       }
     }
     fclose(logFile);
