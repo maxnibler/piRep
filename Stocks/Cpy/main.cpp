@@ -5,10 +5,20 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <csignal>
 #include "python.h"
 #include "analysis.h"
 
 using namespace std;
+
+FILE * logFile;
+
+/*
+void signalHandler(int signum){
+  fclose(logFile);
+  exit(signum);
+}
+*/
 
 string update(StockData SD){
   int i;
@@ -34,35 +44,33 @@ string update(StockData SD){
   
 
 int main(/*int argc, char* argv[]*/){
-  
-  
-  FILE * log;
-  log = fopen("log.txt", "a");
-  getHistory("MSFT", "2020-05-21", "2020-05-28", "1m");
+  //signal(SIGINT, signalHandler);
+  getHistory("MSFT", "1d", "1m");
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
   msft.printInfo();
   
   float net;
   while(true){
+    logFile = fopen("log.txt", "a");
     History = update(msft);
     //msft.printInfo();
     if (msft.update(History)){
       cout << "updated" << endl;
       if (msft.own()){
 	if (msft.movingAve() > msft.price()){
-	  net += msft.sell(log);
+	  net += msft.sell(logFile);
 	  cout << "Current Net: " << net << endl;
-	  fprintf(log,"Running Total: %f\n",net);
+	  fprintf(logFile,"Running Total: %f\n",net);
 	}
       }else{
 	if (msft.movingAve() < msft.price()){
-	  msft.buy(log);
+	  msft.buy(logFile);
 	}
       }
     }
+    fclose(logFile);
   }
-
   //*/
   return 0;
 }

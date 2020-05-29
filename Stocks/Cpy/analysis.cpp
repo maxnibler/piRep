@@ -122,31 +122,7 @@ bool isDigit(char c){
   }
   return 1;
 }
-/*
-int StockData::dateTimeIndex(string d){
-  if (d < Entries[count].getTime() ||
-      d > Entries[ma-1].getTime()){
-    return -1;
-  }
-  return stringBS(DateTime, d, 0, entries-1);
-}
 
-float StockData::highPoint(string fDT, string toDT){
-  //cout << fDT << toDT << endl;
-  int start, end;
-  end = dateTimeIndex(toDT);
-  start = dateTimeIndex(fDT);
-  if (end == -1 || start == -1){
-    return -1.0;
-  }
-  //cout << start << ", " << end << endl;
-  return High[findPeak(true, High, start, end)];
-}
-
-float StockData::changePerMin(){
-  return flux;
-}
-*/
 StockData::StockData(string N, string H, int m){
   name = N;
   ma = m;
@@ -168,28 +144,7 @@ int StockData::populate(string his){
     Entries[counter].fill(temp);
     //Entries[c].print();
     nwline = his.find("\n");
-  }/*
-  for(int i = 0; i < entries-ma; i++){
-    his.erase(0,his.find("\n")+1);
-    //cout << his << endl;
   }
-  for(int i = 0; i < ma; i++){
-    temp = extract(&his);
-    if (temp[0] == '\n') temp.erase(0,1);
-    DateTime[i] = temp;
-    temp = extract(&his);
-    Open[i] = stof(temp);
-    //cout << Open[i] << " " << i << endl;
-    temp = extract(&his);
-    High[i] = stof(temp);
-    temp = extract(&his);
-    Low[i] = stof(temp);
-    temp = extract(&his);
-    Close[i] = stof(temp);
-    temp = extract(&his);
-    Volume[i] = stoi(temp);
-    his.erase(0, his.find("\n"));
-  }*/
   total = 0;
   for(int i = 0; i < ma; i++){
     total += (Entries[i].getHigh()+Entries[i].getLow())/2;
@@ -203,8 +158,6 @@ int StockData::printInfo(){
   //cout << history << endl;
   for(int i = 0; i < ma; i++){
     Entries[i].print();
-    // printf("%i: %s, %f, %f, %f, %f, %i\n",i,DateTime[i].c_str(),
-    //Open[i],High[i],Low[i],Close[i],Volume[i]);
   }
   return 0;
 }
@@ -220,21 +173,7 @@ string StockData::lastTime(){
 int StockData::entryCount(){
   return ma;
 }
-/*
-float StockData::variance(int ind){
-  return High[ind] - Low[ind];
-}
 
-int StockData::countEntries(string history){
-  entries = 0;
-  int len = history.length();
-  for(int i = 0; i < len; i++){
-    if (history[i] == '\n') entries++;
-    //cout << i << endl;
-  }
-  return entries;
-}
-*/
 int StockData::initialize(){
   Entries = new StockEntry [ma];
   counter = 0;
@@ -274,30 +213,22 @@ int StockData::update(string up){
   entry1.fill(up.substr(0,up.find("\n")));
   up.erase(0,up.find("\n")+1);
   entry2.fill(up);
-  //cout << endl;
-  //entry1.print();
-  //entry2.print();
-  if (Entries[counter].isBefore(entry1)){
-    //cout << "well" << endl;
-    counter = (counter+1)%ma;
-    if (entry2.isCurrent()){
-      immediate = entry2;
-      Entries[counter] = entry1;
-    }else{
+  if (entry2.isCurrent()){
+    recent = entry2.getHigh();
+    immediate = entry2;
+    if (Entries[counter].isBefore(entry1)){
+      counter = (counter + 1)%2;
+      Entries[counter++] = entry1;
+    }
+  }else{
+    recent = entry2.getClose();
+    if (Entries[counter]isBefore(entry2)){
       Entries[counter] = entry2;
     }
-    Entries[counter].print();
-    return 1;
-  }else if(Entries[counter].isBefore(entry2)){
-    if (entry2.isCurrent()){
-      immediate = entry2;
-    }else{
-      Entries[counter] = entry2;
-    }
-    return 1;
   }
-  return 0;
-} 
+  //Entries[counter].print();
+  return 1;
+}
 
 float StockData::movingAve(){
   return total/ma;

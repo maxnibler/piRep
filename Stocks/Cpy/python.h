@@ -4,7 +4,7 @@
 
 #include <string>
 
-int getHistory(std::string, std::string, std::string, std::string);
+int getHistory(std::string, std::string, std::string);
 
 int getLongHis(std::string);
 
