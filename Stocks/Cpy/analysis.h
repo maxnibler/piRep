@@ -42,23 +42,17 @@ private:
   //Storage
   StockEntry immediate;
   StockEntry* Entries;
-  //float * MA;
 
   //Member Functions
-  int dateTimeIndex(std::string);
-  int countEntries(std::string);
   int initialize();
   int populate(std::string);
   int totalUpdate(bool);
+  int replace(StockEntry);
   
 public:
-  //float changePerMin();
   StockData(std::string N, std::string H, int);
   int printInfo();
   std::string getName();
-  //float variance(int);
-  int entryCount();
-  //loat highPoint(std::string, std::string);
   float movingAve();
   int update(std::string);
   std::string lastTime();

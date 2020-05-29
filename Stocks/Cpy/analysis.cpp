@@ -135,13 +135,15 @@ StockData::StockData(string N, string H, int m){
 int StockData::populate(string his){
   string temp;
   int nwline;
+  StockEntry entry;
   nwline = his.find("\n");
   while(nwline > 0){
     temp = his.substr(0,nwline);
     his.erase(0,nwline+1);
     //cout << x << endl;
     counter = (counter+1)%ma;
-    Entries[counter].fill(temp);
+    entry.fill(temp);
+    if (!entry.isCurrent()) Entries[counter] = entry;
     //Entries[c].print();
     nwline = his.find("\n");
   }
@@ -168,10 +170,6 @@ string StockData::getName(){
 
 string StockData::lastTime(){
   return Entries[counter].getTime();
-}
-
-int StockData::entryCount(){
-  return ma;
 }
 
 int StockData::initialize(){
@@ -206,6 +204,14 @@ float testEntry(string str){
   return stof(temp);
 }
 
+int StockData::replace(StockEntry e){
+  counter = (counter+1)%ma;
+  totalUpdate(false);
+  Entries[counter] = e;
+  totalUpdate(true);
+  return 0;
+}
+
 int StockData::update(string up){
   up = isolate(up);
   StockEntry entry1 = StockEntry();
@@ -220,23 +226,12 @@ int StockData::update(string up){
     recent = entry2.getHigh();
     immediate = entry2;
     if (Entries[counter].isBefore(entry1)){
-      counter = (counter + 1)%2;
-      totalUpdate(false);
-      Entries[counter] = entry1;
-      totalUpdate(true);
-    }else if (Entries[counter].isBefore(entry2)){
-      counter = (counter + 1)%2;
-      totalUpdate(false);
-      Entries[counter] = entry2;
-      totalUpdate(true);
+      replace(entry1);
     }
   }else{
     recent = entry2.getClose();
     if (Entries[counter].isBefore(entry2)){
-      counter = (counter + 1)%2;
-      totalUpdate(false);
-      Entries[counter] = entry2;
-      totalUpdate(true);
+      replace(entry2);
     }
   }  //Entries[counter].print();
   return 0;

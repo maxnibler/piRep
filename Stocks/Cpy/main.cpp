@@ -13,12 +13,12 @@ using namespace std;
 
 FILE * logFile;
 
-/*
+
 void signalHandler(int signum){
   fclose(logFile);
   exit(signum);
 }
-*/
+
 
 string update(StockData SD){
   int i;
@@ -48,7 +48,8 @@ string update(StockData SD){
   
 
 int main(/*int argc, char* argv[]*/){
-  //signal(SIGINT, signalHandler);
+  logFile = fopen("log.txt", "a");
+  signal(SIGINT, signalHandler);
   getHistory("MSFT", "1d", "1m");
   string History = loadHistory("MSFT");
   StockData msft = StockData("MSFT",History,50);
@@ -56,7 +57,6 @@ int main(/*int argc, char* argv[]*/){
   
   float net; 
   while(true){
-    logFile = fopen("log.txt", "a");
     History = update(msft);
     //msft.printInfo();
     //cout << "updated" << endl;
@@ -73,7 +73,6 @@ int main(/*int argc, char* argv[]*/){
 	msft.buy(logFile);
       }
     }
-    fclose(logFile);
   }
   //*/
   return 0;
