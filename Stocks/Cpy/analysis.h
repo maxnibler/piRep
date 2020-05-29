@@ -49,7 +49,7 @@ private:
   int countEntries(std::string);
   int initialize();
   int populate(std::string);
-  int totalUpdate();
+  int totalUpdate(bool);
   
 public:
   //float changePerMin();

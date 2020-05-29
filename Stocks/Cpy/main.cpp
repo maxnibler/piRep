@@ -35,6 +35,10 @@ string update(StockData SD){
     ss << file.rdbuf();
     path = ss.str();
   }
+  if (path.compare("Terminated\n") == 0){
+    fclose(logFile);
+    exit(2);
+  }
   while(!isDigit(path[0])){
     i = path.find('\n');
     path.erase(0,i+1);
@@ -50,13 +54,14 @@ int main(/*int argc, char* argv[]*/){
   StockData msft = StockData("MSFT",History,50);
   msft.printInfo();
   
-  float net;
+  float net; 
   while(true){
     logFile = fopen("log.txt", "a");
     History = update(msft);
     //msft.printInfo();
     //cout << "updated" << endl;
     msft.update(History);
+    cout << "Moving Average: " << msft.movingAve() <<endl;
     if (msft.own()){
       if (msft.movingAve() > msft.price()){
 	net += msft.sell(logFile);
