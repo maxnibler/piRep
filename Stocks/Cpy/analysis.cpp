@@ -54,6 +54,11 @@ string extract(string* H){
 StockEntry::StockEntry(){
 }
 
+int StockEntry::printLog(FILE * log){
+  fprintf(log,"%s: %f %f %f %f\n",dateTime.c_str(),open,high,low,close);
+  return 0;
+}
+
 bool StockEntry::isBefore(StockEntry e){
   //cout << dateTime << " " << e.getTime() << endl;
   if (dateTime >= e.getTime())  return 0;
@@ -204,15 +209,19 @@ float testEntry(string str){
   return stof(temp);
 }
 
-int StockData::replace(StockEntry e){
+int StockData::replace(StockEntry e,FILE* log){
   counter = (counter+1)%ma;
   totalUpdate(false);
+  fprintf(log,"Updated: ");
+  Entries[counter].printLog(log);
+  fprintf(log,"With: ");
+  e.printLog(log);
   Entries[counter] = e;
   totalUpdate(true);
   return 0;
 }
 
-int StockData::update(string up){
+int StockData::update(string up,FILE* log){
   up = isolate(up);
   StockEntry entry1 = StockEntry();
   StockEntry entry2 = StockEntry();
@@ -226,12 +235,12 @@ int StockData::update(string up){
     recent = entry2.getHigh();
     immediate = entry2;
     if (Entries[counter].isBefore(entry1)){
-      replace(entry1);
+      replace(entry1,log);
     }
   }else{
     recent = entry2.getClose();
     if (Entries[counter].isBefore(entry2)){
-      replace(entry2);
+      replace(entry2,log);
     }
   }  //Entries[counter].print();
   return 0;

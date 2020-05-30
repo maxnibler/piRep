@@ -49,6 +49,7 @@ string update(StockData SD){
 
 int main(/*int argc, char* argv[]*/){
   logFile = fopen("log.txt", "a");
+  fprintf(logFile,"\nProgram Run:\n\n");
   signal(SIGINT, signalHandler);
   getHistory("MSFT", "1d", "1m");
   string History = loadHistory("MSFT");
@@ -60,7 +61,7 @@ int main(/*int argc, char* argv[]*/){
     History = update(msft);
     //msft.printInfo();
     //cout << "updated" << endl;
-    msft.update(History);
+    msft.update(History,logFile);
     cout << "Moving Average: " << msft.movingAve() <<endl;
     if (msft.own()){
       if (msft.movingAve() > msft.price()){

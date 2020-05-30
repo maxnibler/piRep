@@ -24,6 +24,7 @@ clean :
 	rm ${EXEC}
 
 spotless :
+	rm log.txt
 	rm ${OBJ} ${EXEC}
 
 edit :

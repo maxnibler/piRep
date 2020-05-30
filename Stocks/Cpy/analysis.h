@@ -3,6 +3,7 @@
 //https://github.com/maxnibler/
 
 #include <string>
+#include <fstream>
 
 #define MININDAY 390
 
@@ -25,6 +26,7 @@ public:
   int getVolume();
   bool isCurrent();
   int print();
+  int printLog(FILE*);
   bool isBefore(StockEntry);
 };
 
@@ -47,14 +49,14 @@ private:
   int initialize();
   int populate(std::string);
   int totalUpdate(bool);
-  int replace(StockEntry);
+  int replace(StockEntry,FILE*);
   
 public:
   StockData(std::string N, std::string H, int);
   int printInfo();
   std::string getName();
   float movingAve();
-  int update(std::string);
+  int update(std::string, FILE*);
   std::string lastTime();
   bool own();
   int buy(FILE*);
