@@ -39,7 +39,6 @@ private:
   int counter;
   bool holding;
   float purchased;
-  float recent;
   
   //Storage
   StockEntry immediate;

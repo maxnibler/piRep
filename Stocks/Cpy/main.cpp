@@ -52,8 +52,8 @@ int main(/*int argc, char* argv[]*/){
   fprintf(logFile,"\nProgram Run:\n\n");
   signal(SIGINT, signalHandler);
   getHistory("MSFT", "1d", "1m");
-  string History = loadHistory("MSFT");
-  StockData msft = StockData("MSFT",History,50);
+  string History = loadHistory("COTY");
+  StockData msft = StockData("COTY",History,50);
   msft.printInfo();
   
   float net; 
@@ -62,7 +62,7 @@ int main(/*int argc, char* argv[]*/){
     //msft.printInfo();
     //cout << "updated" << endl;
     msft.update(History,logFile);
-    cout << "Moving Average: " << msft.movingAve() <<endl;
+    //cout << "Moving Average: " << msft.movingAve() <<endl;
     if (msft.own()){
       if (msft.movingAve() > msft.price()){
 	net += msft.sell(logFile);

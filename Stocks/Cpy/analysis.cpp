@@ -230,15 +230,16 @@ int StockData::update(string up,FILE* log){
   entry2.fill(up);
   //entry2.print();
   if (entry2.isCurrent()){
-    cout << "Update Current: ";
-    entry2.print();
-    recent = entry2.getHigh();
+    if (immediate.isBefore(entry2)){
+      cout << "Update Current: ";
+      entry2.print();
+    }
     immediate = entry2;
     if (Entries[counter].isBefore(entry1)){
       replace(entry1,log);
     }
   }else{
-    recent = entry2.getClose();
+    immediate = entry2;
     if (Entries[counter].isBefore(entry2)){
       replace(entry2,log);
     }
@@ -263,11 +264,11 @@ float StockData::movingAve(){
 }
 
 float StockData::price(){
-  return recent;
+  return immediate.getClose();
 }
 
 int StockData::buy(FILE * log){
-  purchased = recent;
+  purchased = immediate.getClose();
   //cout << purchased << endl;
   fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
   holding = true;
@@ -279,9 +280,9 @@ bool StockData::own(){
 }
 
 float StockData::sell(FILE * log){
-  float net = recent-purchased;
+  float net = immediate.getClose()-purchased;
   fprintf(log,"Sold %s at :%f for %f dollars profit\n",
-	  name.c_str(),Entries[counter].getClose(),net);
+	  name.c_str(),immediate.getClose(),net);
   holding = false;
   return net;
 }
