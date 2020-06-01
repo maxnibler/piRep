@@ -20,6 +20,7 @@ stockTicker = yf.Ticker(name)
 
 Hist = stockTicker.history(period=per, interval=inter)
 
+#print(Hist)
 #print(msftHist)
 path = "Database/"
 path = path+name+"/"
