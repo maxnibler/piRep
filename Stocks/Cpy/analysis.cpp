@@ -221,7 +221,14 @@ int StockData::replace(StockEntry e,FILE* log){
   return 0;
 }
 
+bool verify(string up){
+  //cout << up << endl;
+  if (isDigit(up[0])) return false;
+  return true;
+}
+
 int StockData::update(string up,FILE* log){
+  if (verify(up)) return 2; 
   up = isolate(up);
   StockEntry entry1 = StockEntry();
   StockEntry entry2 = StockEntry();

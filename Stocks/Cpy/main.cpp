@@ -61,17 +61,20 @@ int main(/*int argc, char* argv[]*/){
     History = update(stock);
     //msft.printInfo();
     //cout << "updated" << endl;
-    stock.update(History,logFile);
-    //cout << "Moving Average: " << msft.movingAve() <<endl;
-    if (stock.own()){
-      if (stock.movingAve() > stock.price()){
-	net += stock.sell(logFile);
-        cout << "Current Net: " << net << endl;
-	fprintf(logFile,"Running Total: %f\n",net);
-      }
+    if(stock.update(History,logFile) == 2){
+      cerr << "Update API call returned invalid data" << endl;
     }else{
-      if (stock.movingAve() < stock.price()){
-	stock.buy(logFile);
+      //cout << "Moving Average: " << msft.movingAve() <<endl;
+      if (stock.own()){
+	if (stock.movingAve() > stock.price()){
+	  net += stock.sell(logFile);
+	  cout << "Current Net: " << net << endl;
+	  fprintf(logFile,"Running Total: %f\n",net);
+	}
+      }else{
+	if (stock.movingAve() < stock.price()){
+	  stock.buy(logFile);
+	}
       }
     }
   }
