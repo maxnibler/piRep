@@ -296,13 +296,13 @@ float StockData::sell(FILE * log){
 }
 
 string loadHistory(string name, string path){
-  cout << path << endl;
+  //cout << path << endl;
   path.append("History/");
   path.append(name);
   path.append("/");
   path.append(name);
   path.append("_history.txt");
-  cout << path << endl;
+  //cout << path << endl;
   string str;
   ifstream file(path.c_str());
   if (file){

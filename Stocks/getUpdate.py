@@ -19,8 +19,8 @@ try:
     config = open(".config")
     path = config.readline()
     configs = path.split("=")
-    path = configs[1].split("\n")
-    path = path+"History/"
+    configs = configs[1].split("\n")
+    path = configs[0]+"History/"
     path = path+name+"/"+name+"_update.txt"
 
     #print(path)
@@ -36,8 +36,8 @@ except KeyboardInterrupt:
     config = open(".config")
     path = config.readline()
     configs = path.split("=")
-    path = configs[1].split("\n")
-    path = path+name+"/"+name+"_update.txt"
+    configs = configs[1].split("\n")
+    path = configs[0]+name+"/"+name+"_update.txt"
     outPath = open(path, 'w')
     outPath.write("Terminated\n")
     outPath.close()

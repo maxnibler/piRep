@@ -40,27 +40,29 @@ void signalHandler(int signum){
 
 string update(StockData SD){
   int i;
+  cout << "here" << endl;
   string name = SD.getName();
   getUpdate(name);
-  string path = "~/Documents/StockData/History/";
+  string path = loadPath();
   path.append(name);
   path.append("/");
   path.append(name);
   path.append("_update.txt");
   ifstream file(path.c_str());
+  cout << path << endl;
   if (file){
     ostringstream ss;
     ss << file.rdbuf();
     path = ss.str();
   }
   if (path.compare("Terminated\n") == 0){
-    fclose(logFile);
-    exit(2);
+    closeProgram(2);
   }
   while(!isDigit(path[0])){
     i = path.find('\n');
     path.erase(0,i+1);
   }
+  cout << path << endl;
   return path;
 }
 
@@ -144,11 +146,11 @@ int main(/*int argc, char* argv[]*/){
   if (logFile == NULL) cerr << "failed";
   fprintf(logFile,"\nProgram Run:\n\n");
   signal(SIGINT, signalHandler);
-  cout << "here" << endl;
+  //cout << "here" << endl;
   getHistory("COTY", "1d", "1m");
-  cout << "no here" << endl;
+  //cout << "no here" << endl;
   string History = loadHistory("COTY",loadPath());
-  cout << "actually here" << endl;
+  //cout << "actually here" << endl;
   StockData stock = StockData("COTY",History,50);
   stock.printInfo();
   currTime = getTime();
@@ -158,7 +160,7 @@ int main(/*int argc, char* argv[]*/){
   //if (timeComp(currTime,"12:30:00")) cout << "Before" << endl;
   
   float net; 
-  while(timeComp(currTime,"13:05:00")){
+  while(timeComp(currTime,"15:55:00")){
     History = update(stock);
     if(stock.update(History,logFile) == 2){
       cerr << "Update API call returned invalid data" << endl;
