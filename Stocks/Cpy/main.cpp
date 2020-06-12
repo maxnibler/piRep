@@ -64,9 +64,48 @@ string splitDateTime(string* dt){
   string temp = (*dt).substr((*dt).find(" "),(*dt).length()-3);
   //cout << temp << endl;
   ret.append(temp);
+  ret.erase(ret.find("\n"),ret.find("\n")+1);
   (*dt).erase((*dt).find(" "),(*dt).length()-1);
   return ret;
 }
+
+string timeExtract(string* tt){
+  int f = (*tt).find(":");
+  string ret = (*tt).substr(0,f);
+  (*tt).erase(0,f+1);
+  return ret;
+}
+
+int timeComp(string time1, string time2){
+  int h1, h2, m1, m2, s1, s2;
+  //cout << time1 << " " << time2 << endl;
+  string temp = timeExtract(&time1);
+  h1 = stoi(temp);
+  temp = timeExtract(&time1);
+  m1 = stoi(temp);
+  //cout << h1 << " " << m1 << endl;
+  temp = timeExtract(&time1);
+  s1 = stoi(temp);
+  //cout << s1 << endl;
+  temp = timeExtract(&time2);
+  h2 = stoi(temp);
+  temp = timeExtract(&time2);
+  m2 = stoi(temp);
+  temp = timeExtract(&time2);
+  s2 = stoi(temp);
+  if (h1 < h2) return 1;
+  if (m1 < m2) return 1;
+  if (s1 < s2) return 1;
+  return 0;
+}
+
+string getTime(){time_t tt;
+  time(&tt);
+  struct tm * ti = localtime(&tt);
+  string currTime = asctime(ti);
+  return currTime;
+}
+  
 
 int main(/*int argc, char* argv[]*/){
   logFile = fopen("log.txt", "a");
@@ -76,17 +115,14 @@ int main(/*int argc, char* argv[]*/){
   string History = loadHistory("COTY");
   StockData stock = StockData("COTY",History,50);
   stock.printInfo();
-
-  time_t tt;
-  time(&tt);
-  struct tm * ti = localtime(&tt);
-  string currTime = asctime(ti);
+  string currTime = getTime();
   string date = splitDateTime(&currTime);
-  cout << date << "," << currTime << endl;
-  
+  //cout << date << "," << currTime << "," <<endl;
+
+  if (timeComp(currTime,"12:30:00")) cout << "Before" << endl;
   
   float net; 
-  while(true){
+  while(timeComp(currTime,"12:35:00")){
     History = update(stock);
     if(stock.update(History,logFile) == 2){
       cerr << "Update API call returned invalid data" << endl;
@@ -103,7 +139,10 @@ int main(/*int argc, char* argv[]*/){
 	}
       }
     }
+    currTime = getTime();
+    date = splitDateTime(&currTime);
   }
+  closeProgram(0);
   //*/
   return 0;
 }
