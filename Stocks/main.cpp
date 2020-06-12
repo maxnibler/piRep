@@ -161,7 +161,7 @@ int main(/*int argc, char* argv[]*/){
   //if (timeComp(currTime,"12:30:00")) cout << "Before" << endl;
   
   float net; 
-  while(timeComp(currTime,"15:55:00")){
+  while(timeComp(currTime,"13:01:00")){
     History = update(stock);
     if(stock.update(History,logFile) == 2){
       cerr << "Update API call returned invalid data" << endl;
