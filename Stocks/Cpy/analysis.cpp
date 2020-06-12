@@ -116,7 +116,7 @@ bool StockEntry::isCurrent(){
 }
 
 int StockEntry::print(){
-  printf("%s: %f %f %f %f\n",dateTime.c_str(),open,high,low,close);
+  printf("%s: %f %f %f %f",dateTime.c_str(),open,high,low,close);
   return 0;
 }
 
@@ -165,6 +165,7 @@ int StockData::printInfo(){
   //cout << history << endl;
   for(int i = 0; i < ma; i++){
     Entries[i].print();
+    cout << endl;
   }
   return 0;
 }
@@ -238,8 +239,8 @@ int StockData::update(string up,FILE* log){
   //entry2.print();
   if (entry2.isCurrent()){
     if (immediate.isBefore(entry2)){
-      cout << "Update Current: ";
       entry2.print();
+      cout << " [MA]: " << movingAve() << endl;
     }
     immediate = entry2;
     if (Entries[counter].isBefore(entry1)){

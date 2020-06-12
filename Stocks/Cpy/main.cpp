@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <csignal>
+#include <chrono>
 #include "python.h"
 #include "analysis.h"
 
@@ -13,12 +14,14 @@ using namespace std;
 
 FILE * logFile;
 
-
-void signalHandler(int signum){
+void closeProgram(int signum){
   fclose(logFile);
   exit(signum);
 }
 
+void signalHandler(int signum){
+  closeProgram(signum);
+}
 
 string update(StockData SD){
   int i;
@@ -45,7 +48,25 @@ string update(StockData SD){
   }
   return path;
 }
-  
+
+string splitDateTime(string* dt){
+  int len = (*dt).length();
+  int count = 0;
+  for(int i = 0; i < len; i++){
+    if ((*dt)[i] == ' ') count++;
+    if (count == 3){
+      count = i;
+      break;
+    }
+  }
+  string ret = (*dt).substr(0,count);
+  (*dt).erase(0,count+1);
+  string temp = (*dt).substr((*dt).find(" "),(*dt).length()-3);
+  //cout << temp << endl;
+  ret.append(temp);
+  (*dt).erase((*dt).find(" "),(*dt).length()-1);
+  return ret;
+}
 
 int main(/*int argc, char* argv[]*/){
   logFile = fopen("log.txt", "a");
@@ -55,16 +76,21 @@ int main(/*int argc, char* argv[]*/){
   string History = loadHistory("COTY");
   StockData stock = StockData("COTY",History,50);
   stock.printInfo();
+
+  time_t tt;
+  time(&tt);
+  struct tm * ti = localtime(&tt);
+  string currTime = asctime(ti);
+  string date = splitDateTime(&currTime);
+  cout << date << "," << currTime << endl;
+  
   
   float net; 
   while(true){
     History = update(stock);
-    //msft.printInfo();
-    //cout << "updated" << endl;
     if(stock.update(History,logFile) == 2){
       cerr << "Update API call returned invalid data" << endl;
     }else{
-      //cout << "Moving Average: " << msft.movingAve() <<endl;
       if (stock.own()){
 	if (stock.movingAve() > stock.price()){
 	  net += stock.sell(logFile);
