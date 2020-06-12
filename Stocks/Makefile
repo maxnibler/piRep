@@ -6,7 +6,7 @@ HEAD    = ${GENDEPS:=.h}
 GPP     = g++
 FLAG    = -Wall -Wextra -Werror -Wpedantic -Wold-style-cast
 #PYFLAG  = pkg-config --cflags --libs python3
-EXEC    = cppy
+EXEC    = stockbot
 MESS    = "generic commit"
 GIT     = git commit -am
 BIN     = ~/.Scripts/
