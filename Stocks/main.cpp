@@ -27,7 +27,7 @@ string update(StockData SD){
   int i;
   string name = SD.getName();
   getUpdate(name);
-  string path = "Database/";
+  string path = "~/Documents/StockData/History/";
   path.append(name);
   path.append("/");
   path.append(name);
@@ -105,21 +105,39 @@ string getTime(){time_t tt;
   string currTime = asctime(ti);
   return currTime;
 }
-  
+
+string hyphenate(string date){
+  int len = date.length();
+  for(int i = 0; i < len; i++){
+    if (date[i] == ' '){
+      date[i] = '-';
+    }
+  }
+  return date;
+}
 
 int main(/*int argc, char* argv[]*/){
-  logFile = fopen("log.txt", "a");
+  string currTime = getTime();
+  string date = splitDateTime(&currTime);
+  date = hyphenate(date);
+  string path = "/home/max/Documents/StockData/Logs/";
+  path.append(date);
+  cout << path << endl;
+  path.append("_log.txt");
+  cout << path << "/" << endl;
+  logFile = fopen(path.c_str(), "w+");
+  if (logFile == NULL) cerr << "failed";
   fprintf(logFile,"\nProgram Run:\n\n");
   signal(SIGINT, signalHandler);
   getHistory("COTY", "1d", "1m");
   string History = loadHistory("COTY");
   StockData stock = StockData("COTY",History,50);
   stock.printInfo();
-  string currTime = getTime();
-  string date = splitDateTime(&currTime);
+  currTime = getTime();
+  date = splitDateTime(&currTime);
   //cout << date << "," << currTime << "," <<endl;
 
-  if (timeComp(currTime,"12:30:00")) cout << "Before" << endl;
+  //if (timeComp(currTime,"12:30:00")) cout << "Before" << endl;
   
   float net; 
   while(timeComp(currTime,"13:05:00")){
