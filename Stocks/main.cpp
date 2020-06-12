@@ -14,6 +14,21 @@ using namespace std;
 
 FILE * logFile;
 
+string loadPath(){
+  ifstream file(".config");
+  string temp;
+  if (file){
+    ostringstream ss;
+    ss << file.rdbuf();
+    temp = ss.str();
+  }
+  int f = temp.find("=");
+  string path = temp.substr(f+1,temp.find("\n")-2);
+  path = path.substr(0,path.find("\n"));
+  //cout << path << endl;
+  return path;
+}
+
 void closeProgram(int signum){
   fclose(logFile);
   exit(signum);
@@ -120,17 +135,20 @@ int main(/*int argc, char* argv[]*/){
   string currTime = getTime();
   string date = splitDateTime(&currTime);
   date = hyphenate(date);
-  string path = "/home/max/Documents/StockData/Logs/";
+  string path = loadPath();
   path.append(date);
-  cout << path << endl;
+  //cout << path << endl;
   path.append("_log.txt");
-  cout << path << "/" << endl;
+  //cout << path << "/" << endl;
   logFile = fopen(path.c_str(), "w+");
   if (logFile == NULL) cerr << "failed";
   fprintf(logFile,"\nProgram Run:\n\n");
   signal(SIGINT, signalHandler);
+  cout << "here" << endl;
   getHistory("COTY", "1d", "1m");
-  string History = loadHistory("COTY");
+  cout << "no here" << endl;
+  string History = loadHistory("COTY",loadPath());
+  cout << "actually here" << endl;
   StockData stock = StockData("COTY",History,50);
   stock.printInfo();
   currTime = getTime();

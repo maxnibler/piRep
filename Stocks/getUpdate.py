@@ -16,9 +16,14 @@ try:
     #print("ticker set")
     update = stockTicker.history(period="1d",interval="1m")
     #print("api call made")
-    path = "Database/"
+    config = open(".config")
+    path = config.readline()
+    configs = path.split("=")
+    path = configs[1].split("\n")
+    path = path+"History/"
     path = path+name+"/"+name+"_update.txt"
 
+    #print(path)
     outPath = open(path,'w')
 
     outPath.write(update.to_string())
@@ -28,7 +33,10 @@ try:
 
 except KeyboardInterrupt:
     name = sys.argv[1]
-    path = "Database/"
+    config = open(".config")
+    path = config.readline()
+    configs = path.split("=")
+    path = configs[1].split("\n")
     path = path+name+"/"+name+"_update.txt"
     outPath = open(path, 'w')
     outPath.write("Terminated\n")

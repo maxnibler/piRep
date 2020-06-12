@@ -295,19 +295,21 @@ float StockData::sell(FILE * log){
   return net;
 }
 
-string loadHistory(string name){
-  string str = "Database/";
-  str.append(name);
-  str.append("/");
-  str.append(name);
-  str.append("_history.txt");
-  ifstream file(str.c_str());
+string loadHistory(string name, string path){
+  cout << path << endl;
+  path.append("History/");
+  path.append(name);
+  path.append("/");
+  path.append(name);
+  path.append("_history.txt");
+  cout << path << endl;
+  string str;
+  ifstream file(path.c_str());
   if (file){
     ostringstream ss;
     ss << file.rdbuf();
     str = ss.str();
   }
-  //cout << str << endl << endl;
   while(!isDigit(str[0])){
     //cout << "test" << endl;
     int i = str.find('\n');
