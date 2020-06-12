@@ -37,7 +37,7 @@ except KeyboardInterrupt:
     path = config.readline()
     configs = path.split("=")
     configs = configs[1].split("\n")
-    path = configs[0]+name+"/"+name+"_update.txt"
+    path = configs[0]+"History/"+name+"/"+name+"_update.txt"
     outPath = open(path, 'w')
     outPath.write("Terminated\n")
     outPath.close()

@@ -40,21 +40,22 @@ void signalHandler(int signum){
 
 string update(StockData SD){
   int i;
-  cout << "here" << endl;
+  //cout << "here" << endl;
   string name = SD.getName();
   getUpdate(name);
   string path = loadPath();
+  path.append("History/");
   path.append(name);
   path.append("/");
   path.append(name);
   path.append("_update.txt");
   ifstream file(path.c_str());
-  cout << path << endl;
   if (file){
     ostringstream ss;
     ss << file.rdbuf();
     path = ss.str();
   }
+  //cout << "no" << endl;
   if (path.compare("Terminated\n") == 0){
     closeProgram(2);
   }
@@ -62,7 +63,7 @@ string update(StockData SD){
     i = path.find('\n');
     path.erase(0,i+1);
   }
-  cout << path << endl;
+  //cout << "broke" << endl;
   return path;
 }
 
