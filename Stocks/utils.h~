@@ -1,0 +1,11 @@
+//Maximillian H Nibler
+//max.nibler@gmail.com
+//https://github.com/maxnibler/
+
+#include <string>
+
+std::string getTime();
+
+std::string getDate();
+
+int timeComp(std::string, std::string);
