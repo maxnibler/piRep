@@ -20,9 +20,16 @@ stockTicker = yf.Ticker(name)
 
 Hist = stockTicker.history(period=per, interval=inter)
 
+#print(Hist)
 #print(msftHist)
-path = "Database/"
-path = path+name+"/"
+config = open(".config",'r')
+path = config.readline()
+configs = path.split("=")
+configs = configs[1].split("\n")
+path = configs[0]
+
+
+path = path+"History/"+name+"/"
 path = path+name+"_history.txt"
 #print(path)
 outPath = open(path,'w')
