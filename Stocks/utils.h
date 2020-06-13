@@ -6,6 +6,10 @@
 
 std::string theTime();
 
+std::string getYear(std::string);
+
+std::string getMonth(std::string);
+
 std::string getDate();
 
 std::string loadPath();

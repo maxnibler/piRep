@@ -64,6 +64,19 @@ string theTime(){
   return splitDateTime(dateTime(),0);
 }
 
+string getYear(string date){
+  date.erase(0,date.find("-")+1);
+  date.erase(0,date.find("-")+1);
+  date.erase(0,date.find("-")+1);
+  return date;
+}
+
+string getMonth(string date){
+  date.erase(0,date.find("-")+1);
+  date.erase(date.find("-"),date.length());
+  return date;
+}
+
 string loadPath(){
   ifstream file(".config");
   string temp;
