@@ -8,6 +8,7 @@
 #include <sstream>
 #include <stdio.h>
 #include "analysis.h"
+#include "python.h"
 
 using namespace std;
 
@@ -276,6 +277,7 @@ float StockData::price(){
 }
 
 int StockData::buy(FILE * log){
+  buyShares(name, 100);
   purchased = immediate.getClose();
   //cout << purchased << endl;
   fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
@@ -288,6 +290,7 @@ bool StockData::own(){
 }
 
 float StockData::sell(FILE * log){
+  sellShares(name, 100);
   float net = immediate.getClose()-purchased;
   fprintf(log,"Sold %s at :%f for %f dollars profit\n",
 	  name.c_str(),immediate.getClose(),net);
