@@ -67,6 +67,16 @@ string update(StockData SD){
   return path;
 }
 
+string hyphenate(string date){
+  int len = date.length();
+  for(int i = 0; i < len; i++){
+    if (date[i] == ' '){
+      date[i] = '-';
+    }
+  }
+  return date;
+}
+
 string splitDateTime(string* dt){
   int len = (*dt).length();
   int count = 0;
@@ -84,6 +94,7 @@ string splitDateTime(string* dt){
   ret.append(temp);
   ret.erase(ret.find("\n"),ret.find("\n")+1);
   (*dt).erase((*dt).find(" "),(*dt).length()-1);
+  ret = hyphenate(ret);
   return ret;
 }
 
@@ -124,41 +135,27 @@ string getTime(){time_t tt;
   return currTime;
 }
 
-string hyphenate(string date){
-  int len = date.length();
-  for(int i = 0; i < len; i++){
-    if (date[i] == ' '){
-      date[i] = '-';
-    }
-  }
-  return date;
+int openLog(string date){
+  string path = loadPath();
+  path.append(date);
+  path.append("_log.txt");
+  logFile = fopen(path.c_str(), "a");
+  fprintf(logFile,"\nProgram Run:\n\n");
+  return 0;
 }
 
 int main(/*int argc, char* argv[]*/){
-  string currTime = getTime();
-  string date = splitDateTime(&currTime);
-  date = hyphenate(date);
-  string path = loadPath();
-  path.append(date);
-  //cout << path << endl;
-  path.append("_log.txt");
-  //cout << path << "/" << endl;
-  logFile = fopen(path.c_str(), "w+");
-  if (logFile == NULL) cerr << "failed";
-  fprintf(logFile,"\nProgram Run:\n\n");
+  string currTime, date, path, History, stock;
+  currTime = getTime();
+  date = splitDateTime(&currTime);
+  openLog(date);
   signal(SIGINT, signalHandler);
-  //cout << "here" << endl;
   getHistory("COTY", "1d", "1m");
-  //cout << "no here" << endl;
-  string History = loadHistory("COTY",loadPath());
-  //cout << "actually here" << endl;
+  History = loadHistory("COTY",loadPath());
   StockData stock = StockData("COTY",History,50);
   stock.printInfo();
   currTime = getTime();
   date = splitDateTime(&currTime);
-  //cout << date << "," << currTime << "," <<endl;
-
-  //if (timeComp(currTime,"12:30:00")) cout << "Before" << endl;
   
   float net; 
   while(timeComp(currTime,"13:01:00")){
