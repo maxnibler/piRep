@@ -1,5 +1,5 @@
 EXDEPS  = ${OBJ}
-GENDEPS = python analysis
+GENDEPS = python analysis utils
 CPP     = ${GENDEPS:=.cpp} main.cpp
 OBJ     = ${GENDEPS:=.o} main.o
 HEAD    = ${GENDEPS:=.h}
@@ -24,7 +24,6 @@ clean :
 	rm ${EXEC}
 
 spotless :
-	rm log.txt
 	rm ${OBJ} ${EXEC}
 
 edit :
