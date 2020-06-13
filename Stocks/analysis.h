@@ -39,7 +39,6 @@ private:
   int counter;
   bool holding;
   float purchased;
-  float recent;
   
   //Storage
   StockEntry immediate;
@@ -64,6 +63,6 @@ public:
   float sell(FILE*);
 };
 
-std::string loadHistory(std::string name);
+std::string loadHistory(std::string name, std::string);
 
 bool isDigit(char c);

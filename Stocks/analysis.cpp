@@ -116,7 +116,7 @@ bool StockEntry::isCurrent(){
 }
 
 int StockEntry::print(){
-  printf("%s: %f %f %f %f\n",dateTime.c_str(),open,high,low,close);
+  printf("%s: %f %f %f %f",dateTime.c_str(),open,high,low,close);
   return 0;
 }
 
@@ -165,6 +165,7 @@ int StockData::printInfo(){
   //cout << history << endl;
   for(int i = 0; i < ma; i++){
     Entries[i].print();
+    cout << endl;
   }
   return 0;
 }
@@ -221,7 +222,14 @@ int StockData::replace(StockEntry e,FILE* log){
   return 0;
 }
 
+bool verify(string up){
+  //cout << up << endl;
+  if (isDigit(up[0])) return false;
+  return true;
+}
+
 int StockData::update(string up,FILE* log){
+  if (verify(up)) return 2; 
   up = isolate(up);
   StockEntry entry1 = StockEntry();
   StockEntry entry2 = StockEntry();
@@ -230,15 +238,16 @@ int StockData::update(string up,FILE* log){
   entry2.fill(up);
   //entry2.print();
   if (entry2.isCurrent()){
-    cout << "Update Current: ";
-    entry2.print();
-    recent = entry2.getHigh();
+    if (immediate.isBefore(entry2)){
+      entry2.print();
+      cout << " [MA]: " << movingAve() << endl;
+    }
     immediate = entry2;
     if (Entries[counter].isBefore(entry1)){
       replace(entry1,log);
     }
   }else{
-    recent = entry2.getClose();
+    immediate = entry2;
     if (Entries[counter].isBefore(entry2)){
       replace(entry2,log);
     }
@@ -263,11 +272,11 @@ float StockData::movingAve(){
 }
 
 float StockData::price(){
-  return recent;
+  return immediate.getClose();
 }
 
 int StockData::buy(FILE * log){
-  purchased = recent;
+  purchased = immediate.getClose();
   //cout << purchased << endl;
   fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
   holding = true;
@@ -279,26 +288,28 @@ bool StockData::own(){
 }
 
 float StockData::sell(FILE * log){
-  float net = recent-purchased;
+  float net = immediate.getClose()-purchased;
   fprintf(log,"Sold %s at :%f for %f dollars profit\n",
-	  name.c_str(),Entries[counter].getClose(),net);
+	  name.c_str(),immediate.getClose(),net);
   holding = false;
   return net;
 }
 
-string loadHistory(string name){
-  string str = "Database/";
-  str.append(name);
-  str.append("/");
-  str.append(name);
-  str.append("_history.txt");
-  ifstream file(str.c_str());
+string loadHistory(string name, string path){
+  //cout << path << endl;
+  path.append("History/");
+  path.append(name);
+  path.append("/");
+  path.append(name);
+  path.append("_history.txt");
+  //cout << path << endl;
+  string str;
+  ifstream file(path.c_str());
   if (file){
     ostringstream ss;
     ss << file.rdbuf();
     str = ss.str();
   }
-  //cout << str << endl << endl;
   while(!isDigit(str[0])){
     //cout << "test" << endl;
     int i = str.find('\n');
