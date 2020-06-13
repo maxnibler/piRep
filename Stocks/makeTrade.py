@@ -1,7 +1,6 @@
 import requests, json
 from config import *
 
-CORE_URL = "https://paper-api.alpaca.markets"
 ACCOUNT_URL = "{}/v2/account".format(CORE_URL)
 ORDERS_URL = "{}/v2/orders".format(CORE_URL)
 HEADERS = {'APCA-API-KEY-ID': API_KEY,'APCA-API-SECRET-KEY': SECRET_KEY}
@@ -22,5 +21,5 @@ def makeOrder(symbol, qty, side, types, timeInForce):
     return json.loads(r.content)
 
 print(getAccount())
-order = makeOrder("MSFT", 1, "sell", "market", "gtc")
+order = makeOrder("MSFT", 1, "buy", "market", "gtc")
 print(order)
