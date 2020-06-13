@@ -55,7 +55,15 @@ string update(StockData SD){
 
 int openLog(string date){
   string path = loadPath();
+  string year = getYear(date);
+  string month = getMonth(date);
+  year.append("Logs/");
+  //cout << getYear(date) << endl;
   path.append("Logs/");
+  path.append(year);
+  //cout << month << endl;
+  month.append("/");
+  path.append(month);
   path.append(date);
   path.append("_log.txt");
   logFile = fopen(path.c_str(), "a");
