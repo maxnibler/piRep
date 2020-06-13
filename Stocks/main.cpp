@@ -145,7 +145,7 @@ int openLog(string date){
 }
 
 int main(/*int argc, char* argv[]*/){
-  string currTime, date, path, History, stock;
+  string currTime, date, path, History;
   currTime = getTime();
   date = splitDateTime(&currTime);
   openLog(date);
