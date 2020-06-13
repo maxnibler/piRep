@@ -14,21 +14,6 @@ using namespace std;
 
 FILE * logFile;
 
-string loadPath(){
-  ifstream file(".config");
-  string temp;
-  if (file){
-    ostringstream ss;
-    ss << file.rdbuf();
-    temp = ss.str();
-  }
-  int f = temp.find("=");
-  string path = temp.substr(f+1,temp.find("\n")-2);
-  path = path.substr(0,path.find("\n"));
-  //cout << path << endl;
-  return path;
-}
-
 void closeProgram(int signum){
   fclose(logFile);
   exit(signum);
