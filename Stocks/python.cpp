@@ -35,6 +35,18 @@ int pycall(string fileName, string args[], int len){
   return 0;
 }
 
+int sellShares(string name, int quant){
+  string args[] = {name, to_string(quant), "sell"};
+  pycall("makeTrade.py", args, 3);
+  return 0;
+}
+
+int buyShares(string name, int quant){
+  string args[] = {name, to_string(quant), "buy"};
+  pycall("makeTrade.py", args, 3);
+  return 0;
+}
+
 int getUpdate(string name){
   string args[] = {name};
   pycall("getUpdate.py",args,1);

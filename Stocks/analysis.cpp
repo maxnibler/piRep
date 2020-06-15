@@ -8,6 +8,7 @@
 #include <sstream>
 #include <stdio.h>
 #include "analysis.h"
+#include "python.h"
 
 using namespace std;
 
@@ -182,6 +183,7 @@ int StockData::initialize(){
   Entries = new StockEntry [ma];
   counter = 0;
   holding = false;
+  crossed = false;
   return 0;
 }
 
@@ -239,8 +241,8 @@ int StockData::update(string up,FILE* log){
   //entry2.print();
   if (entry2.isCurrent()){
     if (immediate.isBefore(entry2)){
-      entry2.print();
-      cout << " [MA]: " << movingAve() << endl;
+      //entry2.print();
+      //cout << " [MA]: " << movingAve() << endl;
     }
     immediate = entry2;
     if (Entries[counter].isBefore(entry1)){
@@ -275,12 +277,22 @@ float StockData::price(){
   return immediate.getClose();
 }
 
-int StockData::buy(FILE * log){
+float StockData::buy(FILE * log){
+  buyShares(name, 100);
   purchased = immediate.getClose();
   //cout << purchased << endl;
   fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
   holding = true;
+  return purchased;
+}
+
+int StockData::firstCross(){
+  crossed = 1;
   return 0;
+}
+
+bool StockData::hasCrossed(){
+  return crossed;
 }
 
 bool StockData::own(){
@@ -288,6 +300,7 @@ bool StockData::own(){
 }
 
 float StockData::sell(FILE * log){
+  sellShares(name, 100);
   float net = immediate.getClose()-purchased;
   fprintf(log,"Sold %s at :%f for %f dollars profit\n",
 	  name.c_str(),immediate.getClose(),net);

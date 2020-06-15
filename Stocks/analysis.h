@@ -39,6 +39,7 @@ private:
   int counter;
   bool holding;
   float purchased;
+  bool crossed;
   
   //Storage
   StockEntry immediate;
@@ -52,14 +53,16 @@ private:
   
 public:
   StockData(std::string N, std::string H, int);
+  int firstCross();
   int printInfo();
   std::string getName();
   float movingAve();
   int update(std::string, FILE*);
   std::string lastTime();
   bool own();
-  int buy(FILE*);
+  float buy(FILE*);
   float price();
+  bool hasCrossed();
   float sell(FILE*);
 };
 

@@ -80,7 +80,7 @@ int main(/*int argc, char* argv[]*/){
   getHistory("COTY", "1d", "1m");
   History = loadHistory("COTY",loadPath());
   StockData stock = StockData("COTY",History,50);
-  stock.printInfo();
+  //stock.printInfo();
   currTime = theTime();
   endTime = "13:01:00";
   
@@ -89,15 +89,22 @@ int main(/*int argc, char* argv[]*/){
     if(stock.update(History,logFile) == 2){
       cerr << "Update API call returned invalid data" << endl;
     }else{
-      if (stock.own()){
-	if (stock.movingAve() > stock.price()){
-	  net += stock.sell(logFile);
-	  cout << "Current Net: " << net << endl;
+      if (stock.movingAve() > stock.price()){
+	if (stock.own()){
+	  float sold = stock.sell(logFile);
+	  net += sold;
+	  //cout << "Current Net: " << net << endl;
 	  fprintf(logFile,"Running Total: %f\n",net);
+	  printf("Sold: %s for: %f, net: %f\n",stock.getName().c_str(),
+		 sold,net);
+	}else if(!stock.hasCrossed()){
+	  stock.firstCross();
 	}
-      }else{
-	if (stock.movingAve() < stock.price()){
-	  stock.buy(logFile);
+      }else if (stock.movingAve() <= stock.price()){
+	if (!stock.own() && stock.hasCrossed()){
+	  float bought = stock.buy(logFile);
+	  printf("Bought: %s for: %f, net: %f\n",
+		 stock.getName().c_str(), bought, net);
 	}
       }
     }
