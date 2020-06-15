@@ -183,8 +183,8 @@ int StockData::initialize(){
   Entries = new StockEntry [ma];
   counter = 0;
   holding = false;
-  return 0;
   crossed = false;
+  return 0;
 }
 
 string isolate(string up){
@@ -279,7 +279,7 @@ float StockData::price(){
 
 int StockData::buy(FILE * log){
   cout << "Has Crossed" << endl;
-  //buyShares(name, 100);
+  buyShares(name, 100);
   purchased = immediate.getClose();
   //cout << purchased << endl;
   fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
