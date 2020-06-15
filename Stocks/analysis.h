@@ -60,7 +60,7 @@ public:
   int update(std::string, FILE*);
   std::string lastTime();
   bool own();
-  int buy(FILE*);
+  float buy(FILE*);
   float price();
   bool hasCrossed();
   float sell(FILE*);

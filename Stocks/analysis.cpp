@@ -241,8 +241,8 @@ int StockData::update(string up,FILE* log){
   //entry2.print();
   if (entry2.isCurrent()){
     if (immediate.isBefore(entry2)){
-      entry2.print();
-      cout << " [MA]: " << movingAve() << endl;
+      //entry2.print();
+      //cout << " [MA]: " << movingAve() << endl;
     }
     immediate = entry2;
     if (Entries[counter].isBefore(entry1)){
@@ -277,13 +277,13 @@ float StockData::price(){
   return immediate.getClose();
 }
 
-int StockData::buy(FILE * log){
+float StockData::buy(FILE * log){
   buyShares(name, 100);
   purchased = immediate.getClose();
   //cout << purchased << endl;
   fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
   holding = true;
-  return 0;
+  return purchased;
 }
 
 int StockData::firstCross(){
