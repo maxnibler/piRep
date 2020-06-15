@@ -94,11 +94,13 @@ int main(/*int argc, char* argv[]*/){
 	  net += stock.sell(logFile);
 	  cout << "Current Net: " << net << endl;
 	  fprintf(logFile,"Running Total: %f\n",net);
-	}else{
+	}else if(!stock.hasCrossed()){
 	  stock.firstCross();
 	}
       }else if (stock.movingAve() <= stock.price()){
-	if (!stock.own()) stock.buy(logFile);
+	if (!stock.own() && stock.hasCrossed()){
+	  stock.buy(logFile);
+	}
       }
     }
     currTime = theTime();

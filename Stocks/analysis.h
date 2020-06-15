@@ -62,6 +62,7 @@ public:
   bool own();
   int buy(FILE*);
   float price();
+  bool hasCrossed();
   float sell(FILE*);
 };
 

@@ -278,21 +278,23 @@ float StockData::price(){
 }
 
 int StockData::buy(FILE * log){
-  if (crossed){
-    buyShares(name, 100);
-    purchased = immediate.getClose();
-    //cout << purchased << endl;
-    fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
-    holding = true;
-    return 0;
-  }else{
-    return 0;
-  }
+  cout << "Has Crossed" << endl;
+  //buyShares(name, 100);
+  purchased = immediate.getClose();
+  //cout << purchased << endl;
+  fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
+  holding = true;
+  return 0;
 }
 
 int StockData::firstCross(){
-  crossed = true;
+  cout << "crossed" << endl;
+  crossed = 1;
   return 0;
+}
+
+bool StockData::hasCrossed(){
+  return crossed;
 }
 
 bool StockData::own(){
