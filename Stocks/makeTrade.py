@@ -43,6 +43,6 @@ def logOrder(trade):
     outPath.close()
     
 #print(getAccount())
-order = makeOrder(sym, quant, buySell, "market", "gtc")
+order = makeOrder(sym, quant, buySell, "market", "day")
 logOrder(order)
 #print(order)

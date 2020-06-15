@@ -98,6 +98,8 @@ int main(/*int argc, char* argv[]*/){
       }else{
 	if (stock.movingAve() < stock.price()){
 	  stock.buy(logFile);
+	}else if(stock.movingAve() > stock.price()){
+	  stock.firstCross();
 	}
       }
     }

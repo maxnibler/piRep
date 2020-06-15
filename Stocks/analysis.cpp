@@ -184,6 +184,7 @@ int StockData::initialize(){
   counter = 0;
   holding = false;
   return 0;
+  crossed false;
 }
 
 string isolate(string up){
@@ -277,11 +278,20 @@ float StockData::price(){
 }
 
 int StockData::buy(FILE * log){
-  buyShares(name, 100);
-  purchased = immediate.getClose();
-  //cout << purchased << endl;
-  fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
-  holding = true;
+  if (crossed){
+    buyShares(name, 100);
+    purchased = immediate.getClose();
+    //cout << purchased << endl;
+    fprintf(log,"Bought %s at :%f\n",name.c_str(),purchased);
+    holding = true;
+    return 0;
+  }else{
+    return 0;
+  }
+}
+
+int StockData::firstCross(){
+  crossed = true;
   return 0;
 }
 
