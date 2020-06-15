@@ -278,7 +278,6 @@ float StockData::price(){
 }
 
 int StockData::buy(FILE * log){
-  cout << "Has Crossed" << endl;
   buyShares(name, 100);
   purchased = immediate.getClose();
   //cout << purchased << endl;
@@ -288,7 +287,6 @@ int StockData::buy(FILE * log){
 }
 
 int StockData::firstCross(){
-  cout << "crossed" << endl;
   crossed = 1;
   return 0;
 }
