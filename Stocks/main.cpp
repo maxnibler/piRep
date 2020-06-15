@@ -89,18 +89,16 @@ int main(/*int argc, char* argv[]*/){
     if(stock.update(History,logFile) == 2){
       cerr << "Update API call returned invalid data" << endl;
     }else{
-      if (stock.own()){
-	if (stock.movingAve() > stock.price()){
+      if (stock.movingAve() > stock.price()){
+	if (stock.own()){
 	  net += stock.sell(logFile);
 	  cout << "Current Net: " << net << endl;
 	  fprintf(logFile,"Running Total: %f\n",net);
-	}
-      }else{
-	if (stock.movingAve() < stock.price()){
-	  stock.buy(logFile);
-	}else if(stock.movingAve() > stock.price()){
+	}else{
 	  stock.firstCross();
 	}
+      }else if (stock.movingAve() <= stock.price()){
+	if (!stock.own()) stock.buy(logFile);
       }
     }
     currTime = theTime();

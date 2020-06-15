@@ -184,7 +184,7 @@ int StockData::initialize(){
   counter = 0;
   holding = false;
   return 0;
-  crossed false;
+  crossed = false;
 }
 
 string isolate(string up){
