@@ -25,6 +25,10 @@ string formatDate(int y, int m, int d){
 }
 
 int pycall(string fileName, string args[], int len){
+  string path;
+  path = "/home/pi/.Scripts/";
+  path.append(fileName);
+  fileName = path;
   fileName = "python3 "+fileName;
   for(int i = 0; i < len; i++){
     fileName.append(" ");

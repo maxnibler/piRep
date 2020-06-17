@@ -78,7 +78,7 @@ string getMonth(string date){
 }
 
 string loadPath(){
-  ifstream file(".config");
+  ifstream file("/home/pi/.Scripts/.config");
   string temp;
   if (file){
     ostringstream ss;
